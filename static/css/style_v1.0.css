@@ -31,7 +31,7 @@ limitations under the License.*/
 
  #wrapper {
     width: 100%;
-    margin-top: 55px!important; 
+    margin-top: 0px!important; 
     background-color:#04B173; 
 }
 
@@ -144,7 +144,8 @@ limitations under the License.*/
     .navbar-static-side {
         z-index: 1;
         position: absolute;
-        width: 250px;
+        width: 70px;
+        /*-- TAILLE SIDE BAR HAUT --*/
     }
 
     .navbar-top-links .dropdown-messages,

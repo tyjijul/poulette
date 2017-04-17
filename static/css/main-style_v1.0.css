@@ -66,7 +66,7 @@ padding: 20px 15px;
  #side-menu a {
             color:#fff;
            border-bottom: 1px solid #84B899 !important;
-           height: 55px;
+           height: 70px;
         }
         .selected {
             background-color:rgb(83, 163, 163);
@@ -130,7 +130,8 @@ border-color: #27A6BE;
 {
     #page-wrapper {
         position: inherit;
-        margin: 0 0 0 250px;
+        margin: 0 0 0 70px;
+        /* SIDE BAR TOTAL */
         padding: 0 30px;
         min-height: 1000px;
        
