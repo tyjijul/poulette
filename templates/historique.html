@@ -1,0 +1,55 @@
+<!doctype html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<html>
+   {% include 'header.html' %}
+   <body style="padding-top: 70px; margin-left : 10px" >
+   
+      <h1>Historique :</h1>
+
+      <div id='table-container'></div>
+
+    </div><!-- /.container -->
+
+    <footer class='footer'>
+      <div class='container-fluid'>
+        <hr />
+        <p class='pull-right'><a href='https://github.com/derekeder/csv-to-html-table'>CSV to HTML Table</a> by <a href='http://derekeder.com'>Derek Eder</a></p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/js/jquery.csv.min.js"></script>
+    <script type="text/javascript" src="static/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="static/js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="static/js/csv_to_html_table.js"></script>
+
+    <script src="historique.csv?rndstr=<%= getRandomStr() %>"></script>
+    <script type="text/javascript">
+      function format_link(link){
+        if (link)
+          return "<a href='" + link + "' target='_blank'>" + link + "</a>";
+        else
+          return "";
+      }
+      
+      CsvToHtmlTable.init({
+        csv_path: 'static/historique.csv',
+        element: 'table-container', 
+        allow_download: true,
+        csv_options: {separator: ',', delimiter: '"'},
+        datatables_options: {"paging": false},
+        custom_formatting: [[4, format_link]]
+      });
+    </script>
+
+
+
+   </body>
+   {% include 'footer.html' %}
+</html>
+
+
