@@ -59,6 +59,26 @@ def accueil():
     initSession()
     return render_template('index.html')
 
+#Route Niveau : 
+@app.route('/niveau', methods = ['GET', 'POST'])
+def niveau():
+    return render_template('gauge.html')
+
+#Route anchor : 
+@app.route('/anchor', methods = ['GET', 'POST'])
+def anchor():
+    return render_template('index.html')
+
+#Route camera : 
+@app.route('/camera', methods = ['GET', 'POST'])
+def camera():
+    return render_template('index.html')
+
+#Route map : 
+@app.route('/map', methods = ['GET', 'POST'])
+def map():
+    return render_template('map.html')
+
 #Fonction AJAX RANGE
 @app.route('/range/<N>', methods = ['POST'])
 def ajax_range(N):
@@ -173,7 +193,7 @@ def historique():
 
 
 if __name__ == "__main__":
-    app.run(host='192.168.1.92')#,debug=True)
+    app.run(host='0.0.0.0')#,debug=True)
 
 
 
