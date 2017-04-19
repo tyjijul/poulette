@@ -56,6 +56,6 @@ while True:
         gpsData = parse_GPRMC(line) # Turn a GPRMC sentence into a Python dictionary called gpsData
         if gpsData['validity'] == "A": # If the sentence shows that there's a fix, then we can log the line
                 with open("/home/pi/poulette/GPS-log.txt", "w") as myfile:
-                    myfile.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude']) +"\n")
+                    myfile.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude']))
                 with open("/home/pi/poulette/GPS-raw-log.txt", "w") as myfile:
                     myfile.write(line)

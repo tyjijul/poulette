@@ -39,14 +39,37 @@
 
 
 <script>
-  
+  //window.onload = reloadPosition;
+  var LONG //= "-5.56562166667"
+  var LAT //= "48.3581516667"
+
+  function reloadPosition(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        LAT = response.LAT
+                        LONG = response.LONG
+                        initialize()
+                        //document.getElementById('city').innerHTML = response.CITY
+                        //$("#frame").attr("src", "https://embed.windytv.com/embed2.html?lat="+response.LAT+"&lon="+response.LONG+"&type=forecast&metricWind=km%2Fh&metricTemp=%C2%B0C");
+            }}
+            req.open('POST', '/weather')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username=1'
+            req.send(postVars)
+            
+        return false
+    }
+
   function initialize() {
+  
   var mapCanvas = document.getElementById('map');
   var mapOptions = {
     zoom: 12,
     center: {
-      lat: 48.4909,
-      lng: -4.5737
+      lat: parseFloat(LAT),
+      lng: parseFloat(LONG)
     },
     mapTypeControl: false,
     zoomControl: true,
@@ -63,7 +86,7 @@
   var map = new google.maps.Map(mapCanvas, mapOptions);
 
   var locations = [
-    ['palace', 52.231871, 21.005841],
+    ['palace', parseFloat(LAT), parseFloat(LONG)],
     ['arkadia', 52.257305, 20.984481],
     ['stadium', 52.215147, 21.035074]
   ];
@@ -106,7 +129,8 @@
   }
 
 }
-google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, 'load', reloadPosition);
 /**
  * Creates a series of custom controls to demonstrate positioning
  * of controls within a map.

@@ -18,7 +18,7 @@ api = Api(app)
 IP = "10.55.1.62"
 
 geolocator = Nominatim()
-
+gpsFile = open('GPS-log.txt')
 PATH_TO_IMG = "experience/img/"
 
 # def update_state(txt):
@@ -116,11 +116,26 @@ def ajax_hum():
 #Fonction AJAX WEATHER
 @app.route('/weather', methods = ['POST'])
 def ajax_weather():
-    t1 = 48.3581516667
-    t2 = -4.56562166667
+    gpsFile = open('GPS-log.txt')
+    temp = gpsFile.readline() 
+    gpsFile.close()
+    value = temp.split(",")   
+    t1 = value[2] #= 48.3581516667
+    t2 = value[3] #= -4.56562166667
     location = geolocator.reverse(""+str(t1)+","+str(t2)+"")
     res = location.raw['address']['county']
     return jsonify(CITY=res, LAT=t1, LONG=t2)
+
+#Fonction AJAX LOCATION
+@app.route('/location', methods = ['POST'])
+def ajax_location():
+    gpsFile = open('GPS-log.txt')
+    temp = gpsFile.readline() 
+    gpsFile.close()
+    value = temp.split(",")   
+    t1 = value[2]
+    t2 = value[3]
+    return jsonify(LAT=t1, LONG=t2)
 
 
 
