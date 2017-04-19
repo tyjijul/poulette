@@ -54,8 +54,12 @@ while True:
     line = ser.readline()
     if "$GPRMC" in line: # This will exclude other NMEA sentences the GPS unit provides.
         gpsData = parse_GPRMC(line) # Turn a GPRMC sentence into a Python dictionary called gpsData
-        if gpsData['validity'] == "A": # If the sentence shows that there's a fix, then we can log the line
+        print(gpsData)
+        #if gpsData['validity'] == "A": # If the sentence shows that there's a fix, then we can log the line
+        if gpsData['decimal_latitude'] == '' :
+                print("NO SIGNAL")
+        else :
                 with open("/home/pi/poulette/GPS-log.txt", "w") as myfile:
-                    myfile.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude']))
+                    myfile.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
                 with open("/home/pi/poulette/GPS-raw-log.txt", "w") as myfile:
                     myfile.write(line)
