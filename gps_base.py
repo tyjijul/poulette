@@ -1,7 +1,5 @@
 import serial
 import os
-import re
-import subprocess
 
 firstFixFlag = False # this will go true after the first GPS fix.
 firstFixDate = ""
@@ -15,6 +13,19 @@ ser = serial.Serial(
     bytesize=serial.EIGHTBITS,\
         timeout=1)
 
+# Helper function to take HHMM.SS, Hemisphere and make it decimal:
+def degrees_to_decimal(data, hemisphere):
+    try:
+        decimalPointPosition = data.index('.')
+        degrees = float(data[:decimalPointPosition-2])
+        minutes = float(data[decimalPointPosition-2:])/60
+        output = degrees + minutes
+        if hemisphere is 'N' or hemisphere is 'E':
+            return output
+        if hemisphere is 'S' or hemisphere is 'W':
+            return -output
+    except:
+        return ""
 
 # Helper function to take a $GPRMC sentence, and turn it into a Python dictionary.
 # This also calls degrees_to_decimal and stores the decimal values as well.
@@ -38,39 +49,13 @@ def parse_GPRMC(data):
     dict['decimal_longitude'] = degrees_to_decimal(dict['longitude'], dict['longitude_hemisphere'])
     return dict
 
-def get_coord():
+# Main program loop:
+while True:
     line = ser.readline()
     if "$GPRMC" in line: # This will exclude other NMEA sentences the GPS unit provides.
-        gpsData = parse_GPRMC(line) 
-        print(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude']) +"\n")
-        coord = ""+str(gpsData['decimal_latitude'])+","+str(gpsData['decimal_longitude'])+""
-        return(coord)
-
-
-
-def detect_gps():
-        device_re = re.compile("Bus\s+(?P<bus>\d+)\s+Device\s+(?P<device>\d+).+ID\s(?P<id>\w+:\w+)\s(?P<tag>.+)$", re.I)
-        df = subprocess.check_output("lsusb")
-        devices = []
-        for i in df.split('\n'):
-            if i:
-                info = device_re.match(i)
-                if info:
-                    dinfo = info.groupdict()
-                    dinfo['device'] = '/dev/bus/usb/%s/%s' % (dinfo.pop('bus'), dinfo.pop('device'))
-                    devices.append(dinfo)
-        GPS = False
-        j = 0
-        for i in df.split('\n'):
-                try :
-                        if "Prolific Technology, Inc. PL2303 Serial Port" in (devices[j]["tag"]):
-                                print("GPS DETECTED")
-                                GPS = True
-                        j = j + 1
-                except :
-                        pass
-
-        return GPS
-
-print(detect_gps())
-print(get_coord())
+        gpsData = parse_GPRMC(line) # Turn a GPRMC sentence into a Python dictionary called gpsData
+        if gpsData['validity'] == "A": # If the sentence shows that there's a fix, then we can log the line
+                with open("/home/pi/poulette/GPS-log.txt", "w") as myfile:
+                    myfile.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude']) +"\n")
+                with open("/home/pi/poulette/GPS-raw-log.txt", "w") as myfile:
+                    myfile.write(line)
