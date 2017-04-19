@@ -18,7 +18,8 @@ api = Api(app)
 IP = "10.55.1.62"
 
 geolocator = Nominatim()
-gpsFile = open('GPS-log.txt')
+gpsFile = open('home/pi/poulette/GPS-log.txt')
+#gpsFile = open('GPS-log.txt')
 PATH_TO_IMG = "experience/img/"
 
 # def update_state(txt):
@@ -122,6 +123,9 @@ def ajax_weather():
     value = temp.split(",")   
     t1 = value[2] #= 48.3581516667
     t2 = value[3] #= -4.56562166667
+    print("VALUE")
+    print(t1)
+    print(t2)
     location = geolocator.reverse(""+str(t1)+","+str(t2)+"")
     res = location.raw['address']['county']
     return jsonify(CITY=res, LAT=t1, LONG=t2)
