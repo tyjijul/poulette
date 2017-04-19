@@ -20,9 +20,8 @@
                             <i class="fa fa-cloud" aria-hidden="true"></i> Météo à Brest
                             <div class="pull-right">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs btn-success" >Refresh
+                                    <button type="button" onclick="reloadWeather()" class="btn btn-default btn-xs btn-success" >Refresh
                                         <span class="fa fa-refresh" aria-hidden="true"></span>
-                                        
                                     </button>
                                     
                                 </div>
@@ -30,7 +29,7 @@
                         </div>
 
                         <div class="panel-body">
-                            <div><iframe width="540" height="180" src="https://embed.windytv.com/embed2.html?lat=48.4909&lon=-4.5737&type=forecast&metricWind=km%2Fh&metricTemp=%C2%B0C" frameborder="0"></iframe></div>
+                            <div><iframe id="meteo" width="540" height="180" src="https://embed.windytv.com/embed2.html?lat=48.4909&lon=-4.5737&type=forecast&metricWind=km%2Fh&metricTemp=%C2%B0C" frameborder="0"></iframe></div>
                         </div>
 
                     </div>
@@ -38,7 +37,11 @@
                 </div>
                 <div class="col-md-4">
                     <div class="alert alert-danger text-center">
-                        <i class="fa fa-calendar fa-3x"></i>&nbsp;<b>20 </b>Meetings Sheduled This Month
+                        <i class="fa fa-calendar fa-3x"></i>
+                            <button type="button" onclick="changeParam('range',1)" class="btn btn-default btn-xs btn-success" >Refresh
+                                <span class="fa fa-refresh" aria-hidden="true"></span>
+                            </button>
+                            <div id="text_range1"></div>
 
                     </div>
                 </div>
@@ -433,6 +436,35 @@
     <script src="static/plugins/morris/morris.js"></script>
     <script src="static/scripts/dashboard-demo.js"></script>
 
+
+<script  type="text/javascript">
+    function reloadWeather(){
+        var iframe = document.getElementById("meteo"); 
+        iframe.src = iframe.src;
+    }
+    
+    function changeParam(param,N){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        document.getElementById('text_'+param+N).innerHTML = response.username
+            }}
+        
+            req.open('POST', '/'+param+'/'+N)
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username=1'
+            req.send(postVars)
+        return false
+    }
+
+</script>
+
 </body>
 
 </html>
+
+
+
+
+

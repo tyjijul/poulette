@@ -1,4 +1,4 @@
-import time, datetime
+import time, datetime, random
 import csv, sys, os, requests, zipfile
 from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash
 from flask_restful import Resource, Api
@@ -79,26 +79,48 @@ def camera():
 def map():
     return render_template('map.html')
 
-#Fonction AJAX RANGE
-@app.route('/range/<N>', methods = ['POST'])
-def ajax_range(N):
-    if(N == "1"):
-        print("change on range 1")
-        username = int(request.form['username'])
-        session['range1'] = username
-        return jsonify(username=username+4) 
-    else:
-        print("change on range 2")
-        username = int(request.form['username'])
-        session['range2'] = username
-        return jsonify(username=username+2) 
 
+#Fonction AJAX TEMP
+@app.route('/temp', methods = ['POST'])
+def ajax_temp():
+    t1 = random.randint(-20,40)
+    t2 = random.randint(-20,40)
+    t3 = random.randint(-20,40)
+    return jsonify(T1=t1, T2=t2, T3=t3)
+
+#Fonction AJAX BATTERY
+@app.route('/battery', methods = ['POST'])
+def ajax_bat():
+    t1 = random.randint(9,15)
+    print(t1)
+    return jsonify(T1=t1)
+
+#Fonction AJAX EAU
+@app.route('/water', methods = ['POST'])
+def ajax_water():
+    print("wheeeee")
+    t1 = random.randint(0,100)
+    t2 = random.randint(0,100)
+    return jsonify(T1=t1, T2=t2)
+
+#Fonction AJAX HUMIDITE
+@app.route('/hum', methods = ['POST'])
+def ajax_hum():
+    t1 = random.randint(0,100)
+    t2 = random.randint(0,100)
+    return jsonify(T1=t1, T2=t2)
+
+
+
+
+
+############# MICROBS ################################
 #Fonction AJAX nom expérience
 @app.route('/name/1', methods = ['POST'])
 def ajax_request():
     username = request.form['username']
     session['name'] = username
-    return jsonify(username=username)    
+    return jsonify(username=username )    
 
 #Route vers SUCCEES
 @app.route('/startAcq')

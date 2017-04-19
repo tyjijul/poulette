@@ -95,13 +95,13 @@
             $('#temp3').jqxLinearGauge('value', 10);
 
 
-            ////////// HUMIDITE ////////////
+            ////////// BATTERY ////////////
             var value_minL = 9
             var value_maxL = 15
             var majorTicksL = { size: '10%', interval: 1 },
                 minorTicksL = { size: '5%', interval: 0.5, style: { 'stroke-width': 1, stroke: '#aaaaaa'} },
                 labels = { interval: 1 };
-            $('#hum1').jqxLinearGauge({
+            $('#bat1').jqxLinearGauge({
                 orientation: 'horizontal',
                 labels: { position: 'near', interval: 1, formatValue: function (value, position) {
                     
@@ -124,7 +124,7 @@
                 background: { visible: false }
                 
             });
-            $('#hum1').jqxLinearGauge('value', 10);
+            $('#bat1').jqxLinearGauge('value', 10);
         });
 
             
@@ -143,7 +143,15 @@
                 <div class="col-md-3">
                     <!--  Area Chart -->
                     <div class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-shower"></i> Eau</div>
+                        <div class="panel-heading"><i class="fa fa-shower"></i> Eau
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" onclick="refreshWater()" class="btn btn-default btn-xs btn-success" >Refresh
+                                        <span class="fa fa-refresh" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel-body">
                             <div id="gauge1"></div>
                             <div id="gauge2"></div>
@@ -154,7 +162,15 @@
                 <div class="col-md-5">
                     <!--  Area Chart -->
                     <div class="panel panel-default">
-                        <div class="panel-heading"> Température</div>
+                        <div class="panel-heading"> Température
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" onclick="refreshTemp()" class="btn btn-default btn-xs btn-success" >Refresh
+                                        <span class="fa fa-refresh" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-1">Int</div><div style= "margin-top:10px; margin-left:-20px" class="col-md-1" id="temp1"></div>
@@ -169,10 +185,18 @@
                  <div class="col-md-4">
                     <!--  Area BATTERIE -->
                     <div class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-battery-full fa-1x"></i> Batterie</div>
+                        <div class="panel-heading"><i class="fa fa-battery-full fa-1x"></i> Batterie
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" onclick="refreshBat()" class="btn btn-default btn-xs btn-success" >Refresh
+                                        <span class="fa fa-refresh" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div style= "margin-left:20px" class="col-md-1" id="hum1"></div>
+                                <div style= "margin-left:20px" class="col-md-1" id="bat1"></div>
                             </div>
 
                         </div>
@@ -194,3 +218,56 @@
     </div>
 </body>
 </html>
+
+<script  type="text/javascript">
+    function refreshTemp(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        //document.getElementById('text_'+param+N).innerHTML = response.username
+                        $('#temp1').jqxLinearGauge('value', response.T1);
+                        $('#temp2').jqxLinearGauge('value', response.T2);
+                        $('#temp3').jqxLinearGauge('value', response.T3);
+            }}
+        
+            req.open('POST', '/temp')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username=1'
+            req.send(postVars)
+        return false
+    }
+
+    function refreshBat(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        //document.getElementById('text_'+param+N).innerHTML = response.username
+                        $('#bat1').jqxLinearGauge('value', response.T1);
+                        
+            }}
+            req.open('POST', '/battery')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username=1'
+            req.send(postVars)
+        return false
+    }
+
+    function refreshWater(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        //document.getElementById('text_'+param+N).innerHTML = response.username
+                        $('#gauge1').jqxGauge('value', response.T1);
+                        $('#gauge2').jqxGauge('value', response.T2);
+            }}
+            req.open('POST', '/water')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username=1'
+            req.send(postVars)
+        return false
+    }
+
+</script>
