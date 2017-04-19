@@ -116,8 +116,8 @@ def ajax_hum():
 #Fonction AJAX WEATHER
 @app.route('/weather', methods = ['POST'])
 def ajax_weather():
-    t1 = 48.8588443
-    t2 = 2.8588443
+    t1 = 48.3581516667
+    t2 = -4.56562166667
     location = geolocator.reverse(""+str(t1)+","+str(t2)+"")
     res = location.raw['address']['county']
     return jsonify(CITY=res, LAT=t1, LONG=t2)
