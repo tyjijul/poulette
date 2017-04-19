@@ -1,7 +1,7 @@
 import time, datetime, random
 import csv, sys, os, requests, zipfile
 from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash
-from flask_restful import Resource, Api
+#from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
 from reconstruction.Reconstruction_SPGL1_EL import reconstructionSPGL1
 from reconstruction.analyse_par_block import analyse_block
@@ -9,12 +9,15 @@ from reconstruction.analyse_par_block_juju import analyse_block2
 from multiprocessing import Process, Value, Array
 from csv_manager import update_csv_history
 import urllib.request as urllib2
+from geopy.geocoders import Nominatim
 
 app = Flask(__name__)
 app.secret_key = 'evo2000'
 CORS(app, origins='http://192.168.1.92:8000')
 api = Api(app)
 IP = "10.55.1.62"
+
+geolocator = Nominatim()
 
 PATH_TO_IMG = "experience/img/"
 
@@ -83,15 +86,15 @@ def map():
 #Fonction AJAX TEMP
 @app.route('/temp', methods = ['POST'])
 def ajax_temp():
-    t1 = random.randint(-20,40)
-    t2 = random.randint(-20,40)
-    t3 = random.randint(-20,40)
+    t1 = round(random.uniform(-20, 40),2)
+    t2 = round(random.uniform(-20, 40),2)
+    t3 = round(random.uniform(-20, 40),2)
     return jsonify(T1=t1, T2=t2, T3=t3)
 
 #Fonction AJAX BATTERY
 @app.route('/battery', methods = ['POST'])
 def ajax_bat():
-    t1 = random.randint(9,15)
+    t1 = round(random.uniform(9, 15),2)
     print(t1)
     return jsonify(T1=t1)
 
@@ -109,6 +112,16 @@ def ajax_hum():
     t1 = random.randint(0,100)
     t2 = random.randint(0,100)
     return jsonify(T1=t1, T2=t2)
+
+#Fonction AJAX WEATHER
+@app.route('/weather', methods = ['POST'])
+def ajax_weather():
+    t1 = round(random.uniform(0, 90),2)
+    t2 = round(random.uniform(0, 180),2)
+    location = geolocator.reverse(""+str(t1)+","+str(t2)+"")
+    res = location.raw['address']['city']
+    city = res['address']['city']
+    return jsonify(CITY=city, LAT=t1, LONG=t2)
 
 
 
