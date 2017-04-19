@@ -18,7 +18,7 @@ api = Api(app)
 IP = "10.55.1.62"
 
 geolocator = Nominatim()
-gpsFile = open('/home/pi/poulette/GPS-log.txt')
+#gpsFile = open('/home/pi/poulette/GPS-log.txt')
 #gpsFile = open('GPS-log.txt')
 PATH_TO_IMG = "experience/img/"
 
@@ -118,6 +118,7 @@ def ajax_hum():
 @app.route('/weather', methods = ['POST'])
 def ajax_weather():
     gpsFile = open('GPS-log.txt')
+    gpsFile = open('/home/pi/poulette/GPS-log.txt')
     temp = gpsFile.readline() 
     gpsFile.close()
     value = temp.split(",")   
