@@ -117,7 +117,7 @@ def ajax_hum():
 #Fonction AJAX WEATHER
 @app.route('/weather', methods = ['POST'])
 def ajax_weather():
-    gpsFile = open('GPS-log.txt')
+    #gpsFile = open('GPS-log.txt')
     gpsFile = open('/home/pi/poulette/GPS-log.txt')
     temp = gpsFile.readline() 
     gpsFile.close()
