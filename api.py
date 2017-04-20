@@ -1,6 +1,6 @@
 import time, datetime, random, subprocess
 import csv, sys, os, requests, zipfile
-from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash
+from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash , Response
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
 # from reconstruction.Reconstruction_SPGL1_EL import reconstructionSPGL1
@@ -11,6 +11,7 @@ from flask_cors import CORS, cross_origin
 # import urllib.request as urllib2
 from lib.lib_poulette import *
 from geopy.geocoders import Nominatim
+from lib.camera import VideoCamera
 
 app = Flask(__name__)
 app.secret_key = 'evo2000'
@@ -23,12 +24,15 @@ PATH_TO_IMG = "experience/img/"
 #PATH = "/home/pi/poulette/"
 PATH = "./"
 
+#TAB = ["00001_photo.jpg","00002_photo.jpg","00003_photo.jpg","00004_photo.jpg","00005_photo.jpg","00006_photo.jpg","00007_photo.jpg","00008_photo.jpg","00010_photo.jpg","00011_photo.jpg","00012_photo.jpg","00013_photo.jpg","00014_photo.jpg","00015_photo.jpg","00016_photo.jpg","00017_photo.jpg","00018_photo.jpg","00019_photo.jpg","00020_photo.jpg","00021_photo.jpg","00022_photo.jpg","00023_photo.jpg","00024_photo.jpg","00025_photo.jpg","00026_photo.jpg","00027_photo.jpg","00028_photo.jpg","00029_photo.jpg"]
+
 #Page d'accueil
 @app.route('/')
 def accueil():
     initSession()
     if session['start'] == 1:
         session['start'] = 0
+        #session['TAB'] = TAB
         getAllValue()
     return render_template('index.html')
 
@@ -45,7 +49,8 @@ def anchor():
 #Route camera : 
 @app.route('/camera', methods = ['GET', 'POST'])
 def camera():
-    return render_template('index.html')
+    session['TAB'] = os.listdir('static/img') 
+    return render_template('gallery.html')
 
 #Route map : 
 @app.route('/map', methods = ['GET', 'POST'])
@@ -117,7 +122,16 @@ def update():
     return jsonify(out=out)
 
 
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(VideoCamera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 ############# MICROBS ################################
 #Fonction AJAX nom expérience
