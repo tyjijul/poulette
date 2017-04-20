@@ -9,6 +9,7 @@ from flask_cors import CORS, cross_origin
 # from multiprocessing import Process, Value, Array
 # from csv_manager import update_csv_history
 # import urllib.request as urllib2
+from lib.lib_poulette import *
 from geopy.geocoders import Nominatim
 
 app = Flask(__name__)
@@ -19,48 +20,16 @@ IP = "10.55.1.62"
 
 geolocator = Nominatim()
 PATH_TO_IMG = "experience/img/"
-PATH = "/home/pi/poulette/"
-#PATH = "./"
-
-# def update_state(txt):
-#     file = open("statefile.txt","w") 
-#     file.write(txt) 
-#     file.close()
-        
-# def process_run(name, bact):
-#     update_state("Diffusion pattern 1024px")
-#     ####### START VIDEO 1024 #####################
-#     res = urllib2.urlopen('http://'+IP+':5000/flag')        # Flag ON
-#     res = urllib2.urlopen('http://'+IP+':5000/video')          # Start video 1092x1092 
-#     res = urllib2.urlopen('http://'+IP+':5000/flag')        # Flag ON
-#     ####### GET DATA FROM I2C FUNCTION ###########
-#     update_state("Reception des données")
-#     time.sleep(2)
-#     ####### RECONSTRUCTION #######################
-#     update_state("Reconstruction SPGL")
-#     IMGname = reconstructionSPGL1(PATH_TO_IMG, name,'src/data/M_phi_use_08.mat', 'src/data/M_signal_use_08.txt')
-#     coord = analyse_block2(PATH_TO_IMG + name+".jpg")
-#     print(coord)
-#     #coord = [[16, 0],[32, 0]]
-#     bact.value = len(coord)
-#     for i in range(len(coord)):                                         # Pour chaque coordonnées
-#         update_state("Analyse par block 64px, nombre de bactérie(s) : "+str(i+1)+"/"+str(len(coord)))
-#         res = urllib2.urlopen('http://'+IP+':5000/flag')             # Flag ON
-#         res = urllib2.urlopen('http://'+IP+':5000/play/'+str(int(coord[i][0])*16)+'/'+ str(int(coord[i][1])*16))
-#         res = urllib2.urlopen('http://'+IP+':5000/flag')            # Flag OFF
-#     #   Reception des données 
-#     # #
-#     # # Traitement 
-#     t2 = datetime.datetime.now()
-#     #session['duree_experience'] = str(t2-t1)
-#     # # CREATION DE FICHIER CSV
-#     #session['fileNAME'] = createCSV()
-
+#PATH = "/home/pi/poulette/"
+PATH = "./"
 
 #Page d'accueil
 @app.route('/')
 def accueil():
     initSession()
+    if session['start'] == 1:
+        session['start'] = 0
+        getAllValue()
     return render_template('index.html')
 
 #Route Niveau : 
@@ -87,32 +56,26 @@ def map():
 #Fonction AJAX TEMP
 @app.route('/temp', methods = ['POST'])
 def ajax_temp():
-    t1 = round(random.uniform(-20, 40),2)
-    t2 = round(random.uniform(-20, 40),2)
-    t3 = round(random.uniform(-20, 40),2)
-    return jsonify(T1=t1, T2=t2, T3=t3)
+    value = get_temperature()
+    return jsonify(T1=value[0], T2=value[1], T3=value[2])
 
 #Fonction AJAX BATTERY
 @app.route('/battery', methods = ['POST'])
 def ajax_bat():
-    t1 = round(random.uniform(9, 15),2)
-    print(t1)
-    return jsonify(T1=t1)
+    value = get_battery()
+    return jsonify(T1=value)
 
 #Fonction AJAX EAU
 @app.route('/water', methods = ['POST'])
 def ajax_water():
-    print("wheeeee")
-    t1 = random.randint(0,100)
-    t2 = random.randint(0,100)
-    return jsonify(T1=t1, T2=t2)
+    value = get_water()
+    return jsonify(T1=value[0], T2=value[1])
 
 #Fonction AJAX HUMIDITE
 @app.route('/hum', methods = ['POST'])
 def ajax_hum():
-    t1 = random.randint(0,100)
-    t2 = random.randint(0,100)
-    return jsonify(T1=t1, T2=t2)
+    value = get_humidity()
+    return jsonify(T1=value[0], T2=value[1])
 
 #Fonction AJAX WEATHER
 @app.route('/weather', methods = ['POST'])
@@ -234,7 +197,7 @@ def update():
 # #Fonction initialisation :  
 def initSession():
     session.clear()
-    session['name'] = "none"
+    session['start'] = 1
     session['date'] = "none"
     session['img'] = "none"
     session['range1'] = "none"
@@ -247,6 +210,14 @@ def initSession():
     session['img_final'] = "none"
     session['img_binarisee'] = "none"
     session['version_algorithme'] = "V1.0" 
+
+
+def getAllValue(): 
+    value = get_temperature()
+    session['temp1'] = value[0]
+    session['temp2'] = value[1]
+    session['temp3'] = value[2]
+    
 
 # @app.route('/historique')
 # def historique():
