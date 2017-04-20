@@ -1,4 +1,4 @@
-import time, datetime, random
+import time, datetime, random, subprocess
 import csv, sys, os, requests, zipfile
 from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash
 from flask_restful import Resource, Api
@@ -18,9 +18,9 @@ api = Api(app)
 IP = "10.55.1.62"
 
 geolocator = Nominatim()
-#gpsFile = open('/home/pi/poulette/GPS-log.txt')
-#gpsFile = open('GPS-log.txt')
 PATH_TO_IMG = "experience/img/"
+PATH = "/home/pi/poulette/"
+#PATH = "./"
 
 # def update_state(txt):
 #     file = open("statefile.txt","w") 
@@ -117,8 +117,7 @@ def ajax_hum():
 #Fonction AJAX WEATHER
 @app.route('/weather', methods = ['POST'])
 def ajax_weather():
-    #gpsFile = open('GPS-log.txt')
-    gpsFile = open('/home/pi/poulette/GPS-log.txt')
+    gpsFile = open(PATH+'GPS-log.txt')
     temp = gpsFile.readline() 
     gpsFile.close()
     value = temp.split(",")   
@@ -134,7 +133,7 @@ def ajax_weather():
 #Fonction AJAX LOCATION
 @app.route('/location', methods = ['POST'])
 def ajax_location():
-    gpsFile = open('GPS-log.txt')
+    gpsFile = open(PATH+'GPS-log.txt')
     temp = gpsFile.readline() 
     gpsFile.close()
     value = temp.split(",")   
@@ -142,6 +141,16 @@ def ajax_location():
     t2 = value[3]
     return jsonify(LAT=t1, LONG=t2)
 
+@app.route('/update', methods = ['POST'])
+def update():
+    output = subprocess.check_output(PATH+"git_status.sh", shell=True)
+    if b'Up-to-date' in output : 
+        print("up-to-date")
+        out = "True"
+    else : 
+        print("update available")
+        out = "False"
+    return jsonify(out=out)
 
 
 
