@@ -11,7 +11,7 @@ from flask_cors import CORS, cross_origin
 # import urllib.request as urllib2
 from lib.lib_poulette import *
 from geopy.geocoders import Nominatim
-from lib.camera import VideoCamera
+#from lib.camera import VideoCamera
 
 app = Flask(__name__)
 app.secret_key = 'evo2000'
@@ -21,8 +21,8 @@ IP = "10.55.1.62"
 
 geolocator = Nominatim()
 PATH_TO_IMG = "experience/img/"
-#PATH = "/home/pi/poulette/"
-PATH = "./"
+PATH = "/home/pi/poulette/"
+#PATH = "./"
 
 #TAB = ["00001_photo.jpg","00002_photo.jpg","00003_photo.jpg","00004_photo.jpg","00005_photo.jpg","00006_photo.jpg","00007_photo.jpg","00008_photo.jpg","00010_photo.jpg","00011_photo.jpg","00012_photo.jpg","00013_photo.jpg","00014_photo.jpg","00015_photo.jpg","00016_photo.jpg","00017_photo.jpg","00018_photo.jpg","00019_photo.jpg","00020_photo.jpg","00021_photo.jpg","00022_photo.jpg","00023_photo.jpg","00024_photo.jpg","00025_photo.jpg","00026_photo.jpg","00027_photo.jpg","00028_photo.jpg","00029_photo.jpg"]
 
