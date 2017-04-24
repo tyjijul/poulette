@@ -11,7 +11,7 @@ from flask_cors import CORS, cross_origin
 # import urllib.request as urllib2
 from lib.lib_poulette import *
 from geopy.geocoders import Nominatim
-#from lib.camera import VideoCamera
+from lib.camera import VideoCamera
 
 app = Flask(__name__)
 app.secret_key = 'evo2000'
@@ -130,8 +130,8 @@ def gen(camera):
 
 @app.route('/video_feed')
 def video_feed():
-    #return Response(gen(VideoCamera()),mimetype='multipart/x-mixed-replace; boundary=frame')
-    return jsonify(out=1)
+    return Response(gen(VideoCamera()),mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 ############# MICROBS ################################
 #Fonction AJAX nom expérience
