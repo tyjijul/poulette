@@ -8,7 +8,18 @@
     <script type="text/javascript" src="static/scripts/jqxgauge.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {  
-            ////////// EAU ////////////       
+            ////////// EAU ////////////     
+            var DATA_CAMION = document.getElementById('page-wrapper');
+            var init_temp1 = DATA_CAMION.dataset.temp1;  
+            var init_temp2 = DATA_CAMION.dataset.temp2; 
+            var init_temp3 = DATA_CAMION.dataset.temp3; 
+            var init_hum1 = DATA_CAMION.dataset.hum1;  
+            var init_hum2 = DATA_CAMION.dataset.hum2;
+            var init_water1 = DATA_CAMION.dataset.water1;  
+            var init_water2 = DATA_CAMION.dataset.water2;
+            var init_bat1 = DATA_CAMION.dataset.bat1;  
+
+
             $('#gauge1').jqxGauge({
                 ranges: [{ startValue: 50, endValue: 100, style: { fill: '#4cb848', stroke: '#4cb848' }, startDistance: 0, endDistance: 0 },
                          { startValue: 25, endValue: 50, style: { fill: '#fad00b', stroke: '#fad00b' }, startDistance: 0, endDistance: 0 },
@@ -43,8 +54,8 @@
 
             $('#gauge1').jqxGauge({ width: 180, height: 180 });
             $('#gauge2').jqxGauge({ width: 180, height: 180 });
-            $('#gauge1').jqxGauge('value', 80);
-            $('#gauge2').jqxGauge('value', 30);
+            $('#gauge1').jqxGauge('value', init_water1);
+            $('#gauge2').jqxGauge('value', init_water2);
 
 
             ////////// TEMPERATURE ////////////
@@ -91,9 +102,9 @@
                 background: { visible: false }
                 
             });
-            $('#temp1').jqxLinearGauge('value', 25);
-            $('#temp2').jqxLinearGauge('value', 20);
-            $('#temp3').jqxLinearGauge('value', 10);
+            $('#temp1').jqxLinearGauge('value', init_temp1);
+            $('#temp2').jqxLinearGauge('value', init_temp2);
+            $('#temp3').jqxLinearGauge('value', init_temp3);
 
 
             ////////// BATTERY ////////////
@@ -125,14 +136,22 @@
                 background: { visible: false }
                 
             });
-            $('#bat1').jqxLinearGauge('value', 10);
+            $('#bat1').jqxLinearGauge('value', init_bat1);
         });
 
             
     </script>
     {% include 'header.html' %}
 </head>
-    <div id="page-wrapper">
+    <div id="page-wrapper" 
+            data-temp1={{session['temp1']}} 
+            data-temp2={{session['temp2']}} 
+            data-temp3={{session['temp3']}}
+            data-hum1={{session['hum1']}} 
+            data-hum2={{session['hum2']}} 
+            data-water1={{session['water1']}} 
+            data-water2={{session['water2']}} 
+            data-bat1={{session['bat1']}} >
             <div class="row">
                  <!--  page header -->
                 <div class="col-md-12">
@@ -206,12 +225,12 @@
                 </div>
                 <div class="col-md-4">
                     <div class="alert alert-success text-center">
-                        <i class="fa fa-spinner fa-1x"></i> Humidité intérieur : <b>50%</b>
+                        <i class="fa fa-spinner fa-1x"></i> Humidité intérieur : <b>{{session['hum1']}}%</b>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="alert alert-success text-center">
-                        <i class="fa fa-spinner fa-1x"></i> Humidité extérieur : <b>70%</b>
+                        <i class="fa fa-spinner fa-1x"></i> Humidité extérieur : <b>{{session['hum2']}}%</b>
                     </div>
                 </div>
 

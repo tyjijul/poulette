@@ -23,9 +23,8 @@ api = Api(app)
 IP = "10.55.1.62"
 
 geolocator = Nominatim()
-PATH_TO_IMG = "experience/img/"
-PATH = "/home/pi/poulette/"
-#PATH = "./"
+#PATH = "/home/pi/poulette/"
+PATH = "./"
 
 
 #Page d'accueil
@@ -134,6 +133,30 @@ def video_feed():
     return Response(gen(VideoCamera()),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+def initSession():
+    session.clear()
+    session['start'] = 1
+    session['temp1'] =  None
+    session['temp2'] =  None
+    session['temp3'] =  None
+    session['hum1'] =   None
+    session['hum2'] =   None
+    session['water1'] = None
+    session['water2'] = None
+    session['bat1'] = None
+
+def getAllValue():
+    value = get_all()
+    session['temp1'] =  value[0][0]
+    session['temp2'] =  value[0][1]
+    session['temp3'] =  value[0][2]
+    session['hum1'] =   value[1][0]
+    session['hum2'] =   value[1][1]
+    session['water1'] = value[2][0]
+    session['water2'] = value[2][1]
+    session['bat1'] = value[3]
+
+
 ############# MICROBS ################################
 #Fonction AJAX nom expérience
 # @app.route('/name/1', methods = ['POST'])
@@ -210,28 +233,9 @@ def video_feed():
 #     c.writerow((session['name'] , session['date']   , session['duree_experience']  , session['nombre_bacterie'], session['range1'] , session['range2'] , session['data_1024']  , session['data_256']   , session['data_64'], session['img_final']  , session['img_binarisee']  , session['version_algorithme']))
 #     return str(session['date']+session['name'])
 # #Fonction initialisation :  
-def initSession():
-    session.clear()
-    session['start'] = 1
-    session['date'] = "none"
-    session['img'] = "none"
-    session['range1'] = "none"
-    session['range2'] = "none"
-    session['duree_experience'] = "none"
-    session['nombre_bacterie'] = "none"
-    session['data_1024'] = "none"
-    session['data_256'] = "none"
-    session['data_64'] = "none"
-    session['img_final'] = "none"
-    session['img_binarisee'] = "none"
-    session['version_algorithme'] = "V1.0" 
 
 
-def getAllValue(): 
-    value = get_temperature()
-    session['temp1'] = value[0]
-    session['temp2'] = value[1]
-    session['temp3'] = value[2]
+
     
 
 # @app.route('/historique')
