@@ -1,6 +1,10 @@
 '''Librairie de lecture capteur'''
 import random
 
+ALERT_PROPRE = 20
+ALERT_GRISE = 60
+ALERT_BATTERY = 12
+
 def get_temperature():
     '''read temp'''
     value1 = round(random.uniform(-20, 40), 2)
@@ -41,11 +45,25 @@ def get_all():
     battery = get_battery()
     return temperature, humidity, water, battery
 
+def get_alert():
+    '''return alert on water and battery '''
+    water = get_water()
+    battery = get_battery()
+    res = []
+    if water[0] <= ALERT_PROPRE:
+        res.append("<h4>Alerte niveau eau propre</h4>")
+    if water[1] >= ALERT_GRISE:
+        res.append("<h4>Alerte niveau eau grise</h4>")
+    if battery <= ALERT_BATTERY:
+        res.append("<h4>Alerte niveau batterie</h4>")
+    if res == []:
+        res.append("<h4>Aucune alerte</h4>")
+    return res
 
 if __name__ == '__main__':
-    value = get_all()
-    print(value[0][0])
-    print(value[1])
-    print(value[2])
-    print(value[3])
-
+    # value = get_all()
+    # print(value[0][0])
+    # print(value[1])
+    # print(value[2])
+    # print(value[3])
+    print(get_alert())

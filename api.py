@@ -82,21 +82,24 @@ def ajax_hum():
     value = get_humidity()
     return jsonify(T1=value[0], T2=value[1])
 
+#Fonction AJAX ALERT 
+@app.route('/alertUpdate', methods = ['POST'])
+def ajax_alert():
+    value = get_alert()
+    print(value)
+    return jsonify(alert=value)
+
 #Fonction AJAX WEATHER
 @app.route('/weather', methods = ['POST'])
 def ajax_weather():
-    print(PATH+'GPS-log.txt')
     gpsFile = open(PATH+'GPS-log.txt')
     temp = gpsFile.readline() 
     gpsFile.close()
     value = temp.split(",")   
     t1 = value[2] #= 48.3581516667
     t2 = value[3] #= -4.56562166667
-    print("VALUE")
-    print(t1)
-    print(t2)
     location = geolocator.reverse(""+str(t1)+","+str(t2)+"")
-    res = location.raw['address']['county']
+    res = " "+location.raw['address']['town']
     return jsonify(CITY=res, LAT=t1, LONG=t2)
 
 #Fonction AJAX LOCATION
@@ -155,6 +158,8 @@ def getAllValue():
     session['water1'] = value[2][0]
     session['water2'] = value[2][1]
     session['bat1'] = value[3]
+
+
 
 
 ############# MICROBS ################################

@@ -4,10 +4,10 @@
         <!--  page-wrapper -->
         <div id="page-wrapper">
 
-            <div class="row">
+            <div class="row" >
                 <!-- Page Header -->
-                <div class="col-md-12">
-                    <h1 class="page-header">DashBoard BIM BAM BOUM</h1>
+                <div class="col-md-12" style="margin-top: -18px;">
+                    <h1 class="page-header">DashBoard</h1>
                 </div>
                 <!--End Page Header -->
             </div>
@@ -17,7 +17,8 @@
                 <div class="col-md-8">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <i class="fa fa-cloud" aria-hidden="true"></i><p id="city"></p>
+                            <i class="fa fa-cloud" id ="city" aria-hidden="true"></i>
+                            <!--<p id="city"></p>-->
                             <div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" onclick="reloadWeather()" class="btn btn-default btn-xs btn-success" >Refresh
@@ -29,22 +30,22 @@
                         </div>
 
                         <div class="panel-body">
-                            <div>
-                                <!--<iframe id="meteo" width="540" height="180" src="https://embed.windytv.com/embed2.html?lat=48.4909&lon=-4.5737&type=forecast&metricWind=km%2Fh&metricTemp=%C2%B0C" frameborder="0"></iframe>-->
-                                <iframe id="frame" src="" width="540" height="180" frameborder="0"></iframe>
+                            <div height="180">
+                                <iframe id="meteo" width="540" height="220" src="https://embed.windytv.com/embed2.html?lat=48.4909&lon=-4.5737&type=forecast&metricWind=km%2Fh&metricTemp=%C2%B0C" frameborder="0"></iframe>
+                                <!--<iframe id="frame" src="" width="540" height="180" frameborder="0"></iframe>-->
                             </div>
                         </div>
 
                     </div>
                         
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" id="id_alert" data-alert={{session['alert']}} >
                     <div class="alert alert-danger text-center">
-                        <i class="fa fa-calendar fa-3x"></i>
-                            <button type="button" onclick="changeParam('range',1)" class="btn btn-default btn-xs btn-success" >Refresh
+                        <i class="fa fa-dashboard fa-3x" onclick="alertUpdate()"></i>
+                            <!--<button type="button" onclick="changeParam('range',1)" class="btn btn-default btn-xs btn-success" >Refresh
                                 <span class="fa fa-refresh" aria-hidden="true"></span>
-                            </button>
-                            <div id="text_range1"></div>
+                            </button>-->
+                            <div id="text_alert"></div>
 
                     </div>
                 </div>
@@ -75,365 +76,7 @@
                 <!--end quick info section -->
             </div>
 
-            <div class="row">
-                <div class="col-md-8">
-                    <!--Area chart example -->
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i>Area Chart Example
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="fa fa-refresh" aria-hidden="true"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">Action</a>
-                                        </li>
-                                        <li><a href="#">Another action</a>
-                                        </li>
-                                        <li><a href="#">Something else here</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
-                        </div>
-
-                    </div>
-                    <!--End area chart example -->
-                    <!--Simple table example -->
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i>Simple Table Example
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">Action</a>
-                                        </li>
-                                        <li><a href="#">Another action</a>
-                                        </li>
-                                        <li><a href="#">Something else here</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Date</th>
-                                                    <th>Time</th>
-                                                    <th>Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>3326</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:29 PM</td>
-                                                    <td>$321.33</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3325</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:20 PM</td>
-                                                    <td>$234.34</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3324</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:03 PM</td>
-                                                    <td>$724.17</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3323</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:00 PM</td>
-                                                    <td>$23.71</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3322</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>2:49 PM</td>
-                                                    <td>$8345.23</td>
-                                                </tr>
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!--End simple table example -->
-
-                </div>
-
-                <div class="col-md-4">
-                    <div class="panel panel-primary text-center no-boder">
-                        <div class="panel-body yellow">
-                            <i class="fa fa-bar-chart-o fa-3x"></i>
-                            <h3>20,741 </h3>
-                        </div>
-                        <div class="panel-footer">
-                            <span class="panel-eyecandy-title">Daily User Visits
-                            </span>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary text-center no-boder">
-                        <div class="panel-body blue">
-                            <i class="fa fa-pencil-square-o fa-3x"></i>
-                            <h3>2,060 </h3>
-                        </div>
-                        <div class="panel-footer">
-                            <span class="panel-eyecandy-title">Pending Orders Found
-                            </span>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary text-center no-boder">
-                        <div class="panel-body green">
-                            <i class="fa fa fa-floppy-o fa-3x"></i>
-                            <h3>20 GB</h3>
-                        </div>
-                        <div class="panel-footer">
-                            <span class="panel-eyecandy-title">New Data Uploaded
-                            </span>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary text-center no-boder">
-                        <div class="panel-body red">
-                            <i class="fa fa-thumbs-up fa-3x"></i>
-                            <h3>2,700 </h3>
-                        </div>
-                        <div class="panel-footer">
-                            <span class="panel-eyecandy-title">New User Registered
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <!-- Notifications-->
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i>Notifications Panel
-                        </div>
-
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i>New Comment
-                                    <span class="pull-right text-muted small"><em>4 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-twitter fa-fw"></i>3 New Followers
-                                    <span class="pull-right text-muted small"><em>12 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-envelope fa-fw"></i>Message Sent
-                                    <span class="pull-right text-muted small"><em>27 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i>New Task
-                                    <span class="pull-right text-muted small"><em>43 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-upload fa-fw"></i>Server Rebooted
-                                    <span class="pull-right text-muted small"><em>11:32 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-bolt fa-fw"></i>Server Crashed!
-                                    <span class="pull-right text-muted small"><em>11:13 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-warning fa-fw"></i>Server Not Responding
-                                    <span class="pull-right text-muted small"><em>10:57 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-shopping-cart fa-fw"></i>New Order Placed
-                                    <span class="pull-right text-muted small"><em>9:49 AM</em>
-                                    </span>
-                                </a>
-
-                            </div>
-                            <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Alerts</a>
-                        </div>
-
-                    </div>
-                    <!--End Notifications-->
-                </div>
-                <div class="col-md-4">
-                    <!-- Donut Example-->
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i>Donut Chart Example
-                        </div>
-                        <div class="panel-body">
-                            <div id="morris-donut-chart"></div>
-                            <a href="#" class="btn btn-default btn-block">View Details</a>
-                        </div>
-
-                    </div>
-                    <!--End Donut Example-->
-                </div>
-                <div class="col-md-4">
-                    <!-- Chat Panel Example-->
-                    <div class="chat-panel panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="fa fa-comments fa-fw"></i>
-                            Chat
-                            <div class="btn-group pull-right">
-                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-chevron-down"></i>
-                                </button>
-                                <ul class="dropdown-menu slidedown">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-refresh fa-fw"></i>Refresh
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-check-circle fa-fw"></i>Available
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-times fa-fw"></i>Busy
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-clock-o fa-fw"></i>Away
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-sign-out fa-fw"></i>Sign Out
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="panel-body">
-                            <ul class="chat">
-                                <li class="left clearfix">
-                                    <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
-                                    </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <strong class="primary-font">Jack Sparrow</strong>
-                                            <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i>12 mins ago
-                                            </small>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="right clearfix">
-                                    <span class="chat-img pull-right">
-                                        <img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle" />
-                                    </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <small class=" text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i>13 mins ago</small>
-                                            <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="left clearfix">
-                                    <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
-                                    </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <strong class="primary-font">Jack Sparrow</strong>
-                                            <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i>14 mins ago</small>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="right clearfix">
-                                    <span class="chat-img pull-right">
-                                        <img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle" />
-                                    </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <small class=" text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i>15 mins ago</small>
-                                            <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="panel-footer">
-                            <div class="input-group">
-                                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-warning btn-sm" id="btn-chat">
-                                        Send
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!--End Chat Panel Example-->
-                </div>
-            </div>
+            
 
 
          
@@ -458,7 +101,15 @@
 
 
 <script  type="text/javascript">
-    window.onload = reloadWeather
+    window.onload = initDashboard
+
+    function initDashboard(){
+        alertUpdate()
+        reloadWeather()
+    }
+
+
+
     function reloadWeather(){
         var req = new XMLHttpRequest()
             req.onreadystatechange = function(){
@@ -473,6 +124,26 @@
             req.send(postVars)
         return false
     }
+
+
+    function alertUpdate(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        console.log = response.alert
+                        document.getElementById('text_alert').innerHTML = response.alert
+
+            }}
+            req.open('POST', '/alertUpdate')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username=1'
+            req.send(postVars)
+        return false
+    }
+
+
+
 
     function checkUpdate(){
         var req = new XMLHttpRequest()
@@ -493,21 +164,6 @@
             }}
         
             req.open('POST', '/update')
-            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-            var postVars = 'username=1'
-            req.send(postVars)
-        return false
-    }
-
-    function changeParam(param,N){
-        var req = new XMLHttpRequest()
-            req.onreadystatechange = function(){
-                if (req.readyState == 4){
-                        var response = JSON.parse(req.responseText)
-                        document.getElementById('text_'+param+N).innerHTML = response.username
-            }}
-        
-            req.open('POST', '/'+param+'/'+N)
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
             var postVars = 'username=1'
             req.send(postVars)
