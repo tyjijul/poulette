@@ -6,12 +6,6 @@ import csv, sys, os, requests, zipfile
 from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash , Response
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
-# from reconstruction.Reconstruction_SPGL1_EL import reconstructionSPGL1
-# from reconstruction.analyse_par_block import analyse_block
-# from reconstruction.analyse_par_block_juju import analyse_block2
-# from multiprocessing import Process, Value, Array
-# from csv_manager import update_csv_history
-# import urllib.request as urllib2
 from lib_poulette import *
 from geopy.geocoders import Nominatim
 from camera import VideoCamera
@@ -24,8 +18,8 @@ api = Api(app)
 IP = "10.55.1.62"
 
 geolocator = Nominatim()
-PATH = "/home/pi/poulette/"
-#PATH = "./"
+#PATH = "/home/pi/poulette/"
+PATH = "./"
 
 
 #Page d'accueil
@@ -93,27 +87,12 @@ def ajax_alert():
 #Fonction AJAX WEATHER
 @app.route('/weather', methods = ['POST'])
 def ajax_weather():
-    #gpsFile = open(PATH+'GPS-log.txt')
-    #temp = gpsFile.readline() 
-    #gpsFile.close()
-    #value = temp.split(",")   
-    #t1 = value[2] #= 48.3581516667
-    #t2 = value[3] #= -4.56562166667
-    #location = geolocator.reverse(""+str(t1)+","+str(t2)+"")
-    #res = " "+location.raw['address']['town']
-    #print(res)
     T = get_town()
     return jsonify(CITY=T[0], LAT=T[1], LONG=T[2])
 
 #Fonction AJAX LOCATION
 @app.route('/location', methods = ['POST'])
 def ajax_location():
-    #gpsFile = open(PATH+'GPS-log.txt')
-    #temp = gpsFile.readline() 
-    #gpsFile.close()
-    #value = temp.split(",")   
-    #t1 = value[2]
-    #t2 = value[3]
     T = get_coord()
     return jsonify(LAT=T[0], LONG=T[1])
 

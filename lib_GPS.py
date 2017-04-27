@@ -16,10 +16,17 @@ def get_coord():
 
 def get_town():
     coord = get_coord()
-    location = geolocator.reverse(""+str( coord[0])+","+str( coord[1])+"")
-    res = " "+location.raw['address']['town']
+    location = geolocator.reverse(""+str(coord[0])+","+str(coord[1])+"")
+    try:
+        res = " "+location.raw['address']['town']
+    except:
+        res = " "+location.raw['address']['village']
+
+
     return(res, coord[0], coord[1])
 if __name__ == '__main__':
     COORD = get_coord()
     print(COORD)
+    TOWN = get_town()
+    print(TOWN)
 
