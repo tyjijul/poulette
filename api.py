@@ -23,8 +23,8 @@ api = Api(app)
 IP = "10.55.1.62"
 
 geolocator = Nominatim()
-#PATH = "/home/pi/poulette/"
-PATH = "./"
+PATH = "/home/pi/poulette/"
+#PATH = "./"
 
 
 #Page d'accueil
