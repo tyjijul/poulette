@@ -12,9 +12,10 @@ from flask_cors import CORS, cross_origin
 # from multiprocessing import Process, Value, Array
 # from csv_manager import update_csv_history
 # import urllib.request as urllib2
-from lib.lib_poulette import *
+from lib_poulette import *
 from geopy.geocoders import Nominatim
-from lib.camera import VideoCamera
+from camera import VideoCamera
+from lib_GPS import *
 
 app = Flask(__name__)
 app.secret_key = 'evo2000'
@@ -92,27 +93,31 @@ def ajax_alert():
 #Fonction AJAX WEATHER
 @app.route('/weather', methods = ['POST'])
 def ajax_weather():
-    gpsFile = open(PATH+'GPS-log.txt')
-    temp = gpsFile.readline() 
-    gpsFile.close()
-    value = temp.split(",")   
-    t1 = value[2] #= 48.3581516667
-    t2 = value[3] #= -4.56562166667
-    location = geolocator.reverse(""+str(t1)+","+str(t2)+"")
-    res = " "+location.raw['address']['town']
-    return jsonify(CITY=res, LAT=t1, LONG=t2)
+    #gpsFile = open(PATH+'GPS-log.txt')
+    #temp = gpsFile.readline() 
+    #gpsFile.close()
+    #value = temp.split(",")   
+    #t1 = value[2] #= 48.3581516667
+    #t2 = value[3] #= -4.56562166667
+    #location = geolocator.reverse(""+str(t1)+","+str(t2)+"")
+    #res = " "+location.raw['address']['town']
+    #print(res)
+    T = get_town()
+    return jsonify(CITY=T[0], LAT=T[1], LONG=T[2])
 
 #Fonction AJAX LOCATION
 @app.route('/location', methods = ['POST'])
 def ajax_location():
-    gpsFile = open(PATH+'GPS-log.txt')
-    temp = gpsFile.readline() 
-    gpsFile.close()
-    value = temp.split(",")   
-    t1 = value[2]
-    t2 = value[3]
-    return jsonify(LAT=t1, LONG=t2)
+    #gpsFile = open(PATH+'GPS-log.txt')
+    #temp = gpsFile.readline() 
+    #gpsFile.close()
+    #value = temp.split(",")   
+    #t1 = value[2]
+    #t2 = value[3]
+    T = get_coord()
+    return jsonify(LAT=T[0], LONG=T[1])
 
+#Fonction check GIT update
 @app.route('/update', methods = ['POST'])
 def update():
     output = subprocess.check_output(PATH+"git_status.sh", shell=True)
@@ -124,13 +129,14 @@ def update():
         out = "False"
     return jsonify(out=out)
 
-
+#Generation d'image provenant de la camera 
 def gen(camera):
     while True:
         frame = camera.get_frame()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
+#Envoie des images au client web
 @app.route('/video_feed')
 def video_feed():
     return Response(gen(VideoCamera()),mimetype='multipart/x-mixed-replace; boundary=frame')
