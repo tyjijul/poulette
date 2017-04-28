@@ -48,7 +48,7 @@ def anchor():
 #Route camera : 
 @app.route('/camera', methods = ['GET', 'POST'])
 def camera():
-    session['TAB'] = os.listdir('static/img') 
+    session['TAB'] = sorted(os.listdir('static/img') , key=str.lower, reverse=True)
     return render_template('gallery.html')
 
 #Route map : 
