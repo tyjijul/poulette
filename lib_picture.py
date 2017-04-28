@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 ''' LIB TO TAKE PICTURE '''
 from subprocess import call
 import time, platform 
