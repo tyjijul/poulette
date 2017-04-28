@@ -22,7 +22,20 @@
         <!--GALLERY-->
         <div class="col-md-9  text-center">
           <div class="panel panel-default">
-            <div  class="panel-heading"><i class="fa fa-film"></i> Gallery</div>
+            <div  class="panel-heading"><i class="fa fa-film"></i> Gallery
+              <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-share-square"></i>
+                        Actions<span class="caret"></span></button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a onclick="sendMail()">Mail</a>
+                        </li>
+                        <li><a href="sendSMS()">SMS</a>
+                        </li>
+                    </ul>
+                </div>
+              </div>
+            </div>
                   <div 
                       class="fotorama"
                       data-width="800"
@@ -63,6 +76,8 @@
           </div>
         </div>
       </div>
+
+      
        
 
 
@@ -78,6 +93,35 @@
     var btn5 = document.getElementById("text_5")
     btn5.innerHTML = 5
   }
+
+  function sendMail(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        console.log = response.out
+            }}
+            req.open('POST', '/Mail_picture')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username='+$(".fotorama__active").find("img.fotorama__img").attr('src');
+            req.send(postVars)
+        return false
+    }
+
+  function sendSMS(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        console.log = response.out
+            }}
+            req.open('POST', '/SMS_picture')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username=1'
+            req.send(postVars)
+        return false
+    }
+
   function takePicture(){
         var req = new XMLHttpRequest()
             req.onreadystatechange = function(){
@@ -142,9 +186,25 @@
           takePicture()
           window.setTimeout("changeColor();",500);
       }
-                
+      
+      function getPicName() {
+          var name = $(".fotorama__active").find("img.fotorama__img").attr('src');
+          alert(name);
+      }
 
 </script>
+
+<!-- Core Scripts - Include with every page -->
+    <script src="static/plugins/jquery-1.10.2.js"></script>
+    <script src="static/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="static/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="static/plugins/pace/pace.js"></script>
+    <script src="static/scripts/siminta.js"></script>
+    <!-- Page-Level Plugin Scripts-->
+    <script src="static/plugins/morris/raphael-2.1.0.min.js"></script>
+    <script src="static/plugins/morris/morris.js"></script>
+    <script src="static/scripts/dashboard-demo.js"></script>
+
 
 </body>
 </html>

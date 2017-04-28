@@ -107,6 +107,21 @@ def take_picture():
     print("PHOTO PRISE !!!!!")
     return jsonify(out="1")
 
+#Fonction PICTURE
+@app.route('/Mail_picture', methods = ['POST'])
+def mail_picture():
+    username = request.form['username']
+    print("SENDING BY MAIL !!!!!")
+    print(username)
+    send_mail_pic(username)
+    return jsonify(out="1")
+
+#Fonction PICTURE
+@app.route('/SMS_picture', methods = ['POST'])
+def sms_picture():
+    take_pic()
+    print("SENDING BY SMS !!!!!")
+    return jsonify(out="1")
 
 #Fonction check GIT update
 @app.route('/update', methods = ['POST'])
