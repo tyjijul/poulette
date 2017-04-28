@@ -105,6 +105,7 @@ def ajax_location():
 def take_picture():
     take_pic()
     print("PHOTO PRISE !!!!!")
+    return jsonify(out="1")
 
 
 #Fonction check GIT update
