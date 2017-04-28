@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   {% include 'header.html' %}
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="static/plugins/jquery-1.11.1.min.js"></script>
   <!-- Fotorama -->
-	<link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.5.2/fotorama.css" rel="stylesheet">
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.5.2/fotorama.js"></script>
+	<link  href="static/css/fotorama.css" rel="stylesheet">
+	<script src="static/scripts/fotorama.js"></script>
 
   <!-- Just don’t want to repeat this prefix in every img[src] -->
 
@@ -42,7 +42,7 @@
           <div class="panel panel-default">
             <div class="panel-heading"><i class="fa fa-camera-retro"></i> Déclancher</div>
               <br>
-              <button type="button" class="btn btn-danger btn-circle btn-xxl"><i class="fa fa-camera-retro"></i></button>
+              <button type="button" class="btn btn-danger btn-circle btn-xxl" onclick="javascript:location.href='/picture'"><i class="fa fa-camera-retro"></i></button>
               <br>
               <br>
             </div>

@@ -21,9 +21,8 @@ def get_town():
         res = " "+location.raw['address']['town']
     except:
         res = " "+location.raw['address']['village']
-
-
     return(res, coord[0], coord[1])
+    
 if __name__ == '__main__':
     COORD = get_coord()
     print(COORD)

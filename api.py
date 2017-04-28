@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import time, datetime, random, subprocess
+import time, datetime, random, subprocess, platform
 import csv, sys, os, requests, zipfile
 from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash , Response
 from flask_restful import Resource, Api
@@ -10,16 +10,20 @@ from lib_poulette import *
 from geopy.geocoders import Nominatim
 from camera import VideoCamera
 from lib_GPS import *
+from lib_picture import *
 
 app = Flask(__name__)
 app.secret_key = 'evo2000'
 CORS(app, origins='http://192.168.1.92:8000')
 api = Api(app)
 IP = "10.55.1.62"
-
 geolocator = Nominatim()
-#PATH = "/home/pi/poulette/"
-PATH = "./"
+
+SYSTEM = platform.system()
+if SYSTEM == 'Darwin':
+    PATH = "/home/pi/poulette/"
+else:
+    PATH = "./"
 
 
 #Page d'accueil
@@ -96,6 +100,13 @@ def ajax_location():
     T = get_coord()
     return jsonify(LAT=T[0], LONG=T[1])
 
+#Fonction PICTURE
+@app.route('/picture', methods = ['POST'])
+def take_picture():
+    take_pic()
+    print("PHOTO PRISE !!!!!")
+
+
 #Fonction check GIT update
 @app.route('/update', methods = ['POST'])
 def update():
@@ -143,98 +154,6 @@ def getAllValue():
     session['water1'] = value[2][0]
     session['water2'] = value[2][1]
     session['bat1'] = value[3]
-
-
-
-
-############# MICROBS ################################
-#Fonction AJAX nom expérience
-# @app.route('/name/1', methods = ['POST'])
-# def ajax_request():
-#     username = request.form['username']
-#     session['name'] = username
-#     return jsonify(username=username )    
-
-# #Route vers SUCCEES
-# @app.route('/startAcq')
-# def ajax_acq():
-#     session['duree_experience'] = str(datetime.datetime.now() - session['debut'])
-#     session['nombre_bacterie'] = tmp_bact.value
-#     historiqueCSV()
-#     return render_template('success.html', error = "error")
-
-# #Route vers ACQUISITION
-# @app.route('/acquisition', methods = ['GET', 'POST'])
-# def acquisition():
-#     session['date'] = time.strftime("%Y-%m-%d_%H:%M:%S_")
-#     session['debut'] = datetime.datetime.now()
-#     global tmp_bact
-#     tmp_bact = Value('i',0)
-#     global proc
-#     proc = Process(target=process_run, args=(session['name'],tmp_bact, ))
-#     proc.start()
-
-#     error = "Veuillez patienter"
-#     return render_template('acquisition.html', error = error)
-
-# #Fonction AJAX process exist ? 
-# @app.route('/status')
-# def thread_status():
-#     finished = proc.is_alive()
-#     print("finished = "+str(finished))
-#     return jsonify(dict(status=('finished' if not finished else 'running')))
-
-# #Fonction AJAX avancement reconstruction :
-# @app.route('/status_txt')
-# def thread_status_txt():
-#     file = open("statefile.txt", "r") 
-#     info_txt = file.readline()
-#     file.close()
-#     print(info_txt)
-#     return jsonify(dict(status=(info_txt)))
-
-# #Route vers annulation reconstruction : 
-# @app.route('/cancel', methods = ['GET', 'POST'])
-# def cancel():
-#     proc.terminate()
-#     return render_template('index.html')
-
-# #Route vers download :
-# @app.route('/download', methods = ['GET', 'POST'])
-# def download():
-#     fileNAME = createCSV()
-#     zipf = zipfile.ZipFile(fileNAME+'.zip','w', zipfile.ZIP_DEFLATED)
-#     print(os.system('ls'))
-#     #zipf.write(''+session['img'])
-#     zipf.write('src/data/M_signal_use_08.txt')
-#     zipf.write('src/data/M_phi_use_08.mat')
-#     zipf.close()
-#     return send_file('../Name.zip',mimetype = 'zip',attachment_filename= 'Name.zip',as_attachment = True)
-
-# #Fonction historique CSV : 
-# def historiqueCSV():
-#     newline = [session['name'] , session['date']   , session['duree_experience']  , session['nombre_bacterie'], session['range1'] , session['range2'] , session['data_1024']  , session['data_256']   , session['data_64'], session['img_final']  , session['img_binarisee']  , session['version_algorithme']]
-#     update_csv_history(newline)
-
-# #Fonction création CSV :
-# def createCSV():
-#     c = csv.writer(open("experience/"+session['date']+session['name']+".csv", "w"))
-#     c.writerow(["nom", "date", "duree_experience", "nombre_bacterie", "range1", "range2", "data_1024", "data_256", "data_64", "img_final", "img_binarisee", "version_algorithme"])
-#     c.writerow((session['name'] , session['date']   , session['duree_experience']  , session['nombre_bacterie'], session['range1'] , session['range2'] , session['data_1024']  , session['data_256']   , session['data_64'], session['img_final']  , session['img_binarisee']  , session['version_algorithme']))
-#     return str(session['date']+session['name'])
-# #Fonction initialisation :  
-
-
-
-    
-
-# @app.route('/historique')
-# def historique():
-#     initSession()
-#     return render_template('historique.html')
-
-
-
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')#,debug=True)
