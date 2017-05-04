@@ -91,7 +91,11 @@ def ajax_alert():
 #Fonction AJAX WEATHER
 @app.route('/weather', methods = ['POST'])
 def ajax_weather():
-    T = get_town()
+    try:
+        T = get_town()
+    except(ValueError):
+        print("//////////////////////e.code")
+        return jsonify(CITY=0, LAT=0, LONG=0)
     return jsonify(CITY=T[0], LAT=T[1], LONG=T[2])
 
 #Fonction AJAX LOCATION
