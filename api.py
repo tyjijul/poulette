@@ -56,6 +56,10 @@ def camera():
 def map():
     return render_template('map.html')
 
+#Route map : 
+@app.route('/mapL', methods = ['GET', 'POST'])
+def mapL():
+    return render_template('mapL.html')
 
 #Fonction AJAX TEMP
 @app.route('/temp', methods = ['POST'])

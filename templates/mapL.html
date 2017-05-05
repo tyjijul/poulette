@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="static/leaflet/leaflet.css" />
+<script src="static/leaflet/leaflet.js"></script>
+
+  
+
+
+{% include 'header.html' %}
+<body>
+
+<div id="page-wrapper">
+  <div class="row">
+      <!--  page header -->
+      <div class="col-md-12">
+        <div id="mapid" style="width:100%;height:610px;"></div>
+        
+      </div>
+  </div>
+</div>
+
+
+<script>
+  window.onload = reloadPosition;
+
+  var LONG //= "-5.56562166667"
+  var LAT //= "48.3581516667"
+
+  function reloadPosition(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        LAT = response.LAT
+                        LONG = response.LONG
+                        console.log = LAT
+                        console.log = LONG
+                        var mymap = L.map('mapid').setView([parseFloat(LAT), parseFloat(LONG)], 12);
+                        //var mymap = L.map('mapid').setView([48.43472, -4.622632 ], 11);
+                        L.tileLayer('https://api.mapbox.com/styles/v1/tyjijul/cj2bjo4po003w2rnqq57h0oe8/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoidHlqaWp1bCIsImEiOiJjajIwNzZ6eTYwMDJ5MzRsbnI2OXl3bHB4In0.WFdArxqgXjEqmmDkvquRLA').addTo(mymap);
+                        //L.marker([48.3581,-5.5656]).addTo(map)
+                        var marker = L.marker([parseFloat(LAT), parseFloat(LONG)]).addTo(mymap);
+
+                        //initialize()
+                        //document.getElementById('city').innerHTML = response.CITY
+                        //$("#frame").attr("src", "https://embed.windytv.com/embed2.html?lat="+response.LAT+"&lon="+response.LONG+"&type=forecast&metricWind=km%2Fh&metricTemp=%C2%B0C");
+            }}
+            req.open('POST', '/weather')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username=1'
+            req.send(postVars)
+            
+        return false
+    }
+
+
+  // var mymap = L.map('mapid').setView([51.505, -1.09], 13);
+
+//   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+//     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+//     maxZoom: 18,
+//     id: 'tyjijul.PLS_map',
+//     accessToken: 'sk.eyJ1IjoidHlqaWp1bCIsImEiOiJjajJiam1yMTUwMDFzMnFsandxMHVveXpjIn0.qFokVnTowRFyaRYRlMpQmg'
+// }).addTo(mymap);
+
+
+  // L.tileLayer('https://api.mapbox.com/styles/v1/tyjijul/cj2bjo4po003w2rnqq57h0oe8/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoidHlqaWp1bCIsImEiOiJjajIwNzZ6eTYwMDJ5MzRsbnI2OXl3bHB4In0.WFdArxqgXjEqmmDkvquRLA').addTo(mymap);
+
+
+
+  
+</script>
+
+
+</body>
+</html>
+
+
