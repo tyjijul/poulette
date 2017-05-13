@@ -22,12 +22,12 @@ def hum_int():
 def hum_ext():
     res = spi.xfer([0x06, 0x00])
     print("hum_ext = " + str(res[0]))
-    return(res)
+    return(res[0])
 
 def temp_int():
     res = spi.xfer([0x07, 0x00, 0x00, 0x00, 0x00])
     print("temp_int = " + str(res[0]))
-    return(res)
+    return(res[0])
 
 def temp_ext():
     res = spi.xfer([0x08, 0x00])

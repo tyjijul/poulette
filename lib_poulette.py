@@ -1,5 +1,6 @@
 '''Librairie de lecture capteur'''
 import random
+from lib_SPI import *
 
 ALERT_PROPRE = 20
 ALERT_GRISE = 60
@@ -7,8 +8,8 @@ ALERT_BATTERY = 12
 
 def get_temperature():
     '''read temp'''
-    value1 = round(random.uniform(-20, 40), 2)
-    value2 = round(random.uniform(-20, 40), 2)
+    value1 = temp_int()
+    value2 = temp_ext()
     value3 = round(random.uniform(-20, 40), 2)
     # value1 = 10
     # value2 = 20

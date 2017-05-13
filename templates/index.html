@@ -75,16 +75,8 @@
                 
                 <!--end quick info section -->
             </div>
-
-            
-
-
-         
-
-
         </div>
         <!-- end page-wrapper -->
-
     </div>
     <!-- end wrapper -->
 
@@ -107,8 +99,6 @@
         alertUpdate()
         reloadWeather()
     }
-
-
 
     function reloadWeather(){
         var req = new XMLHttpRequest()
@@ -159,13 +149,11 @@
                             document.getElementById('myModalLabel').innerHTML = "Système à jour"
                             document.getElementById('updateInfo').innerHTML = "Aucune mise à jour disponible"
                             document.getElementById('btn_maj').style.visibility = 'hidden';
-                            
                         }else{
                             document.getElementById('myModalLabel').innerHTML = "Mise à jour disponible"
                             document.getElementById('updateInfo').innerHTML = "Cliquer sur OK pour mettre à jour le système. Attention cela nécessite un redémarrage complet du système, certaine donnée pourraient etre perdu. "
                             document.getElementById('btn_maj').style.visibility = 'visible';
-                        }
-                        
+                        } 
             }}
         
             req.open('POST', '/update')
@@ -175,12 +163,8 @@
         return false
     }
 
-    
-
 </script>
-
 </body>
-
 </html>
 
 
