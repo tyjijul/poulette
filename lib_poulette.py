@@ -10,7 +10,7 @@ def get_temperature():
     '''read temp'''
     value1 = temp_int()
     value2 = temp_ext()
-    value3 = round(random.uniform(-20, 40), 2)
+    value3 = temp_frigo() #round(random.uniform(-20, 40), 2)
     # value1 = 10
     # value2 = 20
     # value3 = 30
