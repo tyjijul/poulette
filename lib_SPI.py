@@ -1,4 +1,4 @@
-import spidev
+import spidev, time
 
 spi = spidev.SpiDev()
 spi.open(0,0)
@@ -25,16 +25,22 @@ def hum_ext():
     return(res[0])
 
 def temp_int():
-    res = spi.xfer([0x07, 0x00, 0x00, 0x00, 0x00])
+    res = spi.xfer([0x07, 0x00])
+    time.sleep(0.1)
+    res = spi.xfer([0x07, 0x00])
     print("temp_int = " + str(res[0]))
     return(res[0])
 
 def temp_ext():
+    res = spi.xfer([0x08, 0x00])
+    time.sleep(0.1)
     res = spi.xfer([0x08, 0x00])
     print("temp_ext = " + str(res[0]))
     return(res[0])
 
 def temp_frigo():
     res = spi.xfer([0x09, 0x00])
-    print("temp_ext = " + str(res[0]))
+    time.sleep(0.1)
+    res = spi.xfer([0x09, 0x00])
+    print("temp_frigo = " + str(res[0]))
     return(res[0])
