@@ -43,12 +43,14 @@ def niveau():
 #Route anchor : 
 @app.route('/anchor', methods = ['GET', 'POST'])
 def anchor():
-    return render_template('index.html')
+    session['P4N'] = [("t1", "para1", "pic1"),("t2", "para2", "pic2"),("t3", "para3", "pic3")]
+    return render_template('anchor.html')
 
 #Route camera : 
 @app.route('/camera', methods = ['GET', 'POST'])
 def camera():
     session['TAB'] = sorted(os.listdir('static/img') , key=str.lower, reverse=True)
+    print(session['TAB'])
     return render_template('gallery.html')
 
 #Route map : 
@@ -125,6 +127,15 @@ def mail_picture():
     return jsonify(out="1")
 
 #Fonction PICTURE
+@app.route('/Delete_picture', methods = ['POST'])
+def delete_picture():
+    username = request.form['username']
+    print("DELETING !!!!!")
+    print(username)
+    del_pic(username)
+    return jsonify(out="1")
+
+#Fonction PICTURE
 @app.route('/SMS_picture', methods = ['POST'])
 def sms_picture():
     take_pic()
@@ -180,7 +191,7 @@ def getAllValue():
     session['bat1'] = value[3]
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')#,debug=True)
+    app.run(host='0.0.0.0',debug=True)
 
 
 

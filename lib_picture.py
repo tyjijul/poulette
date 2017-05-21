@@ -7,7 +7,7 @@ from email.MIMEText import MIMEText
 from email.MIMEBase import MIMEBase
 from email import encoders
 from subprocess import call
-import time, platform 
+import time, platform, glob, os 
 SYSTEM = platform.system()
 fromaddr = "poulettemylove@gmail.com"
 toaddr = "julien.cav@gmail.com"
@@ -47,6 +47,11 @@ def send_mail_pic(path):
 	text = msg.as_string()
 	server.sendmail(fromaddr, toaddr, text)
 	server.quit()
+
+def del_pic(path):
+	#filelist = glob.glob(os.path.join(path)
+    #for f in filelist:
+    os.remove(path)
 
 if __name__ == '__main__':
     RES = send_mail_pic("static/img/00011_photo.jpg")
