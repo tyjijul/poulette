@@ -2,12 +2,12 @@ import time
 
 
 def bat_route():
-    res = 200
+    res = [200]
     
     return(int(res[0])*4*0.0146)
 
 def bat_aux():
-    res = 200
+    res = [200]
     return(int(res[0])*4*0.0146)
 
 def hum_int():

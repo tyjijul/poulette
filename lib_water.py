@@ -44,22 +44,22 @@ def eau_propre():
 	GPIO.output(25,GPIO.LOW)
 
 	if(res == 5):
-		print "Le niveau d'eau propre est supérieur au trois quart"
+		print("Le niveau d'eau propre est supérieur au trois quart")
 		res = 100
 	elif(res == 4):
-		print "Le niveau d'eau propre est au trois quart"
+		print("Le niveau d'eau propre est au trois quart")
 		res = 75
 	elif(res == 3):
-		print "Le niveau d'eau propre est à la moitié"
+		print("Le niveau d'eau propre est à la moitié")
 		res = 50
 	elif(res == 2):
-		print "Le niveau d'eau propre est au quart"
+		print("Le niveau d'eau propre est au quart")
 		res = 25
 	elif(res == 1):
-		print "Le niveau d'eau est CRITIQUE !!!!!"
+		print("Le niveau d'eau est CRITIQUE !!!!!")
 		res = 10
 	else:
-		print "Il n'y a plus d'eau dans le réservoir"
+		print("Il n'y a plus d'eau dans le réservoir")
 		res =0
 	return res
 
@@ -76,22 +76,22 @@ def eau_grise():
 	GPIO.output(4,GPIO.LOW)
 
 	if(res == 5):
-		print "Le niveau d'eau propre est supérieur au trois quart"
+		print ("Le niveau d'eau propre est supérieur au trois quart")
 		res = 100
 	elif(res == 4):
-		print "Le niveau d'eau propre est au trois quart"
+		print ("Le niveau d'eau propre est au trois quart")
 		res = 75
 	elif(res == 3):
-		print "Le niveau d'eau propre est à la moitié"
+		print ("Le niveau d'eau propre est à la moitié")
 		res = 50
 	elif(res == 2):
-		print "Le niveau d'eau propre est au quart"
+		print ("Le niveau d'eau propre est au quart")
 		res = 25
 	elif(res == 1):
-		print "Le niveau d'eau est CRITIQUE !!!!!"
+		print ("Le niveau d'eau est CRITIQUE !!!!!")
 		res = 10
 	else:
-		print "Il n'y a plus d'eau dans le réservoir"
+		print ("Il n'y a plus d'eau dans le réservoir")
 		res =0
 	return res
 

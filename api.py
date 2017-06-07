@@ -10,7 +10,7 @@ from lib_poulette import *
 from geopy.geocoders import Nominatim
 from camera import VideoCamera
 from lib_GPS import *
-from lib_picture import *
+
 
 app = Flask(__name__)
 app.secret_key = 'evo2000'
@@ -22,8 +22,10 @@ geolocator = Nominatim()
 SYSTEM = platform.system()
 if SYSTEM == 'Darwin':
     PATH = "/home/pi/poulette/"
+    from lib_mac_picture import *
 else:
     PATH = "./"
+    from lib_picture import *
 
 
 #Page d'accueil

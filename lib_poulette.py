@@ -1,11 +1,16 @@
 '''Librairie de lecture capteur'''
-import random, time
+import random, time, platform
+
+SYSTEM = platform.system()
 if SYSTEM == 'Darwin':
     from lib_mac_SPI import *
+    from lib_mac_water import *
 else:
     from lib_SPI import *
+    from lib_water import *
 
-from lib_water import *
+
+
 
 ALERT_PROPRE = 20
 ALERT_GRISE = 60
