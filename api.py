@@ -63,7 +63,7 @@ def map():
 #Route map : 
 @app.route('/mapL', methods = ['GET', 'POST'])
 def mapL():
-    return render_template('mapL.html')
+    return render_template('blank.html')
 
 #Fonction AJAX TEMP
 @app.route('/temp', methods = ['POST'])

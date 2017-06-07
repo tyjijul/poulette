@@ -130,9 +130,9 @@ border-color: #27A6BE;
 {
     #page-wrapper {
         position: inherit;
-        margin: 0 0 0 70px;
+        margin: 0 0 0 0px;
         /* SIDE BAR TOTAL */
-        padding: 0 30px;
+        padding: 0 0px;
         min-height: 1000px;
        
        
