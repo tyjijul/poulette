@@ -19,14 +19,17 @@ def get_coord():
 
 def get_town():
     coord = get_coord()
-    try : 
-        location = geolocator.reverse(""+str(coord[0])+","+str(coord[1])+"")
-    except : 
-        raise ValueError("Problème de connexion internet essayer plus tard")
+    # try : 
+    location = geolocator.reverse(""+str(coord[0])+","+str(coord[1])+"")
+    # except : 
+    #     raise ValueError("Problème de connexion internet essayer plus tard")
     try:
         res = " "+location.raw['address']['town']
     except:
-        res = " "+location.raw['address']['village']
+	try:
+            res = " "+location.raw['address']['village']
+	except:
+	    res = " "+location.raw['address']['county']
     return(res, coord[0], coord[1])
     
 if __name__ == '__main__':

@@ -22,7 +22,7 @@ def take_pic():
     if SYSTEM == 'Darwin':
         call(["imagesnap", "-w", "1", str(fullpath)])
     else :
-        call(["fswebcam", "-r", "640x480", fullpath])
+        call(["raspistill", "-n", "-o", fullpath])
     return 1
 
 

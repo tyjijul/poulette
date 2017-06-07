@@ -38,7 +38,7 @@ def hum_ext():
     res = spi.xfer([0x04])
     time.sleep(0.2)
     res = spi.xfer([0x04])
-    while res[0] == 4:
+    while res[0] == 4 :
         time.sleep(0.2)
         res = spi.xfer([0x04])
     print("hum_ext = " + str(res))
@@ -92,9 +92,9 @@ def temp():
     return(1)
 
 if __name__ == '__main__':
-    # temp()
-    # hum_ext()
+    temp()
+    #hum_ext()
     # hum_int()
-    temp_int()
+    #temp_int()
     bat_route()
     # bat_aux()

@@ -20,8 +20,8 @@ def get_temperature():
 
 def get_humidity():
     '''read humidity'''
-    value1 = random.randint(0, 100)
-    value2 = random.randint(0, 100)
+    value1 = hum_int()  #random.randint(0, 100)
+    value2 = hum_ext()  #random.randint(0, 100)
     # value1 = 40
     # value2 = 50
     return value1, value2
