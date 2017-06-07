@@ -1,6 +1,10 @@
 '''Librairie de lecture capteur'''
 import random, time
-from lib_SPI import *
+if SYSTEM == 'Darwin':
+    from lib_mac_SPI import *
+else:
+    from lib_SPI import *
+
 from lib_water import *
 
 ALERT_PROPRE = 20
