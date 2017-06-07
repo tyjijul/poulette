@@ -52,8 +52,8 @@
                 caption: { offset: [0, 0], value: 'Grise', position: 'bottom' }
             });
 
-            $('#gauge1').jqxGauge({ width: 180, height: 180 });
-            $('#gauge2').jqxGauge({ width: 180, height: 180 });
+            $('#gauge1').jqxGauge({ width: ((document.getElementById('bat1').offsetWidth-10)/2), height:  ((document.getElementById('bat1').offsetWidth-10)/2) });
+            $('#gauge2').jqxGauge({ width:  ((document.getElementById('bat1').offsetWidth-10)/2), height:  ((document.getElementById('bat1').offsetWidth-10)/2) });
             // $('#gauge1').jqxGauge('value', init_water1);
             // $('#gauge2').jqxGauge('value', init_water2);
 
@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" id="idName">
                             <div class="col-xs-1"  id="gauge1"></div>
                             <div class="col-xs-1"  id="gauge2"></div>
                         </div>
