@@ -37,6 +37,7 @@ def get_humidity():
 
 def get_water():
     '''read water'''
+    print("readwater")
     init_water()
     value1 = eau_propre()   #random.randint(0, 100)
     value2 = eau_grise()     #random.randint(0, 100)

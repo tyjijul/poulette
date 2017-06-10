@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   {% include 'header.html' %}
+  <body style="margin-top: -100px;">
 <script src="static/plugins/jquery-1.11.1.min.js"></script>
   <!-- Fotorama -->
 	<link  href="static/css/fotorama.css" rel="stylesheet">
@@ -11,7 +12,7 @@
 <body>
 <div id="page-wrapper">
       <div class="row">
-          <div class="col-md-12"  style="margin-top: -18px;">
+          <div class="col-md-12">
                     <h1 class="page-header">Photo</h1>
           </div>
       </div>
@@ -47,7 +48,7 @@
                       
                     {% for line in  session['TAB'] : %}
                     <!--Penser a ajouter la vignette des images (thumbs)-->
-                    <a href=static/img/{{ line }}><img src="static/img/{{ line }}" width="144" height="96"></a>
+                    <a href=static/img/{{ line }}><img src="static/thumbnail/{{ line }}" width="144" height="96"></a>
                     {% endfor %}
                   </div>
               
@@ -97,6 +98,7 @@
   }
 
   function sendMail(){
+        var email = prompt("Please enter your Email:", "Poulette need it !");
         var req = new XMLHttpRequest()
             req.onreadystatechange = function(){
                 if (req.readyState == 4){
@@ -106,6 +108,7 @@
             req.open('POST', '/Mail_picture')
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
             var postVars = 'username='+$(".fotorama__active").find("img.fotorama__img").attr('src');
+            var postVars = 'email='+email;
             req.send(postVars)
         return false
     }

@@ -118,11 +118,15 @@ def take_picture():
     take_pic()
     print("PHOTO PRISE !!!!!")
     return jsonify(out="1")
+    #return render_template('gallery.html')
+    
 
 #Fonction PICTURE
 @app.route('/Mail_picture', methods = ['POST'])
 def mail_picture():
     username = request.form['username']
+    #email = request.form['email']
+    print('email :-DDDD')
     print("SENDING BY MAIL !!!!!")
     print(username)
     send_mail_pic(username)
