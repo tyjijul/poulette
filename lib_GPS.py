@@ -24,12 +24,12 @@ def get_town():
     # except : 
     #     raise ValueError("Problème de connexion internet essayer plus tard")
     try:
-        res = " "+location.raw['address']['town']
+        res = " "+location.raw['address']['village']
     except:
         try:
             res = " "+location.raw['address']['county']
         except:
-            res = " "+location.raw['address']['village']
+            res = " "+location.raw['address']['town']
     return(res, coord[0], coord[1])
     
 if __name__ == '__main__':
