@@ -65,17 +65,17 @@ def del_pic(path):
 	os.remove("static/thumbnail/"+parsePath[2])
 
 
-def sendEmail():	
+def sendEmail(path, email):	
 	msg['From'] = fromaddr
-	msg['To'] = toaddr
-	msg['Subject'] = "SUBJECT OF THE EMAIL"
+	msg['To'] = email
+	msg['Subject'] = "Photo send from Poulette Life System !"
 	
-	body = "TEXT YOU WANT TO SEND"
+	body = "Hello c'est poulette ! voici la photo"
 	
 	msg.attach(MIMEText(body, 'plain'))
-	
-	filename = "NAME OF THE FILE WITH ITS EXTENSION"
-	attachment = open("PATH OF THE FILE", "rb")
+	parsePath = path.split("/")
+	filename = parsePath[2]
+	attachment = open(path, "rb")
 	
 	part = MIMEBase('application', 'octet-stream')
 	part.set_payload((attachment).read())
@@ -86,7 +86,7 @@ def sendEmail():
 	
 	server = smtplib.SMTP('smtp.gmail.com', 587)
 	server.starttls()
-	server.login(fromaddr, "YOUR PASSWORD")
+	server.login(fromaddr, "superpoulette")
 	text = msg.as_string()
 	server.sendmail(fromaddr, toaddr, text)
 	server.quit()

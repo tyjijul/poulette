@@ -62,9 +62,9 @@ def map():
     return render_template('map.html')
 
 #Route map : 
-@app.route('/mapL', methods = ['GET', 'POST'])
-def mapL():
-    return render_template('blank.html')
+@app.route('/tracker', methods = ['GET', 'POST'])
+def tracker():
+    return render_template('tracker.html')
 
 #Fonction AJAX TEMP
 @app.route('/temp', methods = ['POST'])
