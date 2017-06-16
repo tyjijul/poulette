@@ -15,8 +15,8 @@ from email.MIMEText import MIMEText
 from email.MIMEBase import MIMEBase
 from email import encoders
 
-fromaddr = "YOUR EMAIL"
-toaddr = "EMAIL ADDRESS YOU SEND TO"
+fromaddr = "poulettemylove@gmail.com"
+
 
 msg = MIMEMultipart()
 
