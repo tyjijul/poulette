@@ -93,3 +93,5 @@ def sendEmail(path, email):
 
 if __name__ == '__main__':
 	print("fuck lib_picture")
+	
+	#sendEmail("static/img/00001_photo.jpg", "julien.cav@gmail.com ")
