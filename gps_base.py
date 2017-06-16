@@ -1,5 +1,5 @@
 import serial
-import os
+import os, time
 
 firstFixFlag = False # this will go true after the first GPS fix.
 firstFixDate = ""
@@ -63,3 +63,12 @@ while True:
                     myfile.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
                 with open("/home/pi/poulette/GPS-raw-log.txt", "w") as myfile:
                     myfile.write(line)
+                myfile.close()
+                holiday = open("holiday.txt", "r")
+                H = holiday.read()
+                holiday.close()
+                if H == "1":
+                    with open("/home/pi/poulette/GPS-holiday.txt", "a") as holiday:
+                        holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
+
+        time.sleep(300)

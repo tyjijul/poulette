@@ -31,7 +31,7 @@
                     <ul class="dropdown-menu pull-right" role="menu">
                         <li><a onclick="sendMail()">Mail</a>
                         </li>
-                        <li><a href="sendSMS()">SMS</a>
+                        <li><a href="sendSMS()">refresh</a>
                         </li>
                         <li><a onclick="deletePic()">Supprimer</a>
                         </li>
@@ -40,6 +40,7 @@
               </div>
             </div>
                   <div 
+                      id= "fotorama"
                       class="fotorama"
                       data-width="800"
                       data-ratio="18/12"
@@ -48,10 +49,11 @@
                       
                     {% for line in  session['TAB'] : %}
                     <!--Penser a ajouter la vignette des images (thumbs)-->
-                    <a href=static/img/{{ line }}><img src="static/thumbnail/{{ line }}" width="144" height="96"></a>
+                    <a href=static/img/{{ line }}><img src="static/thumbnail/T_{{ line }}" width="144" height="96"></a>
                     {% endfor %}
                   </div>
-              
+                  
+                  
             </div>
         </div>
         <!--PHOTO BUTTON-->
@@ -113,12 +115,15 @@
         return false
     }
 
+
     function deletePic(){
         var req = new XMLHttpRequest()
             req.onreadystatechange = function(){
                 if (req.readyState == 4){
                         var response = JSON.parse(req.responseText)
                         console.log = response.out
+                        $("#fotorama").load(location.href + " #fotorama");
+                        
             }}
             req.open('POST', '/Delete_picture')
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -133,6 +138,7 @@
                 if (req.readyState == 4){
                         var response = JSON.parse(req.responseText)
                         console.log = response.out
+                        
             }}
             req.open('POST', '/SMS_picture')
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -147,6 +153,7 @@
                 if (req.readyState == 4){
                         var response = JSON.parse(req.responseText)
                         console.log = response.out
+
             }}
             req.open('POST', '/picture')
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -161,6 +168,8 @@
       btn.className = btn.className.replace("btn-success", "btn-danger");
     }
 
+    
+
      function t10(duree){
             btn = document.getElementById("btn10");
             btn.className = btn.className.replace("btn-danger", "btn-success");
@@ -171,6 +180,7 @@
                 takePicture()
                 btn.className = btn.className.replace("btn-success", "btn-danger");
                 compteur10.innerHTML=10
+                window.location.replace('/camera')
                 //TAKE PICTURE
                 
             }else{
@@ -190,6 +200,7 @@
                 takePicture()
                 btn.className = btn.className.replace("btn-success", "btn-danger");
                 compteur10.innerHTML=5
+                window.location.replace('/camera')
                 //TAKE PICTURE
                 
             }else{
@@ -204,6 +215,7 @@
           btn.className = btn.className.replace("btn-danger", "btn-success");
           takePicture()
           window.setTimeout("changeColor();",500);
+          window.location.replace('/camera')
       }
       
       function getPicName() {

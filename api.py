@@ -8,7 +8,7 @@ from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
 from lib_poulette import *
 from geopy.geocoders import Nominatim
-from camera import VideoCamera
+
 from lib_GPS import *
 
 
@@ -26,6 +26,7 @@ if SYSTEM == 'Darwin':
 else:
     PATH = "./"
     from lib_picture import *
+    from camera import VideoCamera
 
 
 #Page d'accueil
@@ -144,7 +145,7 @@ def delete_picture():
 #Fonction PICTURE
 @app.route('/SMS_picture', methods = ['POST'])
 def sms_picture():
-    take_pic()
+    #take_pic()
     print("SENDING BY SMS !!!!!")
     return jsonify(out="1")
 

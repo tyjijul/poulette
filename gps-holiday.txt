@@ -1,0 +1,1 @@
+gpsData['fix_date'],gpsData['fix_time'],str(gpsData['decimal_latitude']),str(gpsData['decimal_longitude']),endLine
