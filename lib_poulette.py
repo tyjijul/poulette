@@ -10,8 +10,6 @@ else:
     from lib_water import *
 
 
-
-
 ALERT_PROPRE = 20
 ALERT_GRISE = 60
 ALERT_BATTERY = 12
