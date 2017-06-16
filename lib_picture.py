@@ -67,7 +67,7 @@ def del_pic(path):
 
 def sendEmail(path, email):	
 	msg['From'] = fromaddr
-	msg['To'] = email
+	msg['To'] = email.strip()
 	msg['Subject'] = "Photo send from Poulette Life System !"
 	
 	body = "Hello c'est poulette ! voici la photo"
