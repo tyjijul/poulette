@@ -191,11 +191,12 @@ def download(N):
 @app.route('/Mail_gpx', methods = ['POST'])
 def mail_gpx():
     username = request.form['username']
+    mail = request.form['email']
     #email = request.form['email']
-    print('email :-DDDD')
+    print(mail +':-DDDD')
     print("SENDING BY MAIL !!!!!")
     print(username)
-    sendEmailGpx(username, "julien.cav@gmail.com")
+    sendEmailGpx(username, mail)
     return jsonify(out="1")
 
 

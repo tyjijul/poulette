@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 fromaddr = "poulettemylove@gmail.com"
-toaddr = "julien.cav@gmail.com"
+
 msg = MIMEMultipart()
 
 def is_holyday(VACANCE_BOOL):
@@ -63,7 +63,7 @@ def gps_base():
 
 def sendEmailGpx(path, email):	
 	msg['From'] = fromaddr
-	msg['To'] = email
+	msg['To'] = email.strip()
 	msg['Subject'] = "GPX send from Poulette Life System !"
 	
 	body = "Hello c'est poulette ! voici la trace des vacances !"
@@ -71,7 +71,7 @@ def sendEmailGpx(path, email):
 	msg.attach(MIMEText(body, 'plain'))
 	
 
-	attachment = open("static/gps/"+path, "rb")
+	attachment = open("static/gps/"+path.strip(), "rb")
 	
 	part = MIMEBase('application', 'octet-stream')
 	part.set_payload((attachment).read())
@@ -84,7 +84,7 @@ def sendEmailGpx(path, email):
 	server.starttls()
 	server.login(fromaddr, "superpoulette")
 	text = msg.as_string()
-	server.sendmail(fromaddr, toaddr, text)
+	server.sendmail(fromaddr, email, text)
 	server.quit()
 
 #is_holyday(1)
