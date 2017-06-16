@@ -8,6 +8,7 @@ from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
 from lib_poulette import *
 from geopy.geocoders import Nominatim
+import requests, json
 
 from lib_GPS import *
 
@@ -64,7 +65,9 @@ def map():
 #Route map : 
 @app.route('/tracker', methods = ['GET', 'POST'])
 def tracker():
-    return render_template('tracker.html')
+    data = {'holidayTXT': session['holiday'], 'holidayStart': session['holidayStart']}
+    session['TAB'] = sorted(os.listdir('static/gps') , key=str.lower, reverse=True)
+    return render_template('tracker.html', points=json.dumps(data))
 
 #Fonction AJAX TEMP
 @app.route('/temp', methods = ['POST'])
@@ -173,6 +176,12 @@ def gen(camera):
 def video_feed():
     return Response(gen(VideoCamera()),mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/download/<N>', methods = ['GET', 'POST'])
+def download(N):
+    print(N)
+    #return 1
+    return send_file("static/gps/"+N,mimetype = 'txt',attachment_filename= N,as_attachment = True)
+
 
 def initSession():
     session.clear()
@@ -185,6 +194,17 @@ def initSession():
     session['water1'] = None
     session['water2'] = None
     session['bat1'] = None
+    # get init of holiday 
+    with open("holiday.txt", "r") as holiday : 
+        line = holiday.readline()
+        parseholiday = line.split(";")
+        if parseholiday[0] == "1":
+            session['holiday'] = 1
+            print("api.py : C'EST LES VACANCES !!!!!!")
+        else :
+            session['holiday'] = 0
+            print("api.py : AU BOULOT !!!!!!")
+        session['holidayStart'] = parseholiday[1]
 
 def getAllValue():
     value = get_all()

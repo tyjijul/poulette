@@ -69,6 +69,8 @@ while True:
                 holiday.close()
                 if H == "1":
                     with open("/home/pi/poulette/GPS-holiday.txt", "a") as holiday:
-                        holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
+                        if gpsData['fix_date'] > 1:
+                            holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
+                    holiday.close()
 
-        time.sleep(300)
+        time.sleep(10)

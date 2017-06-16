@@ -1,20 +1,22 @@
-import gpxpy
+import gpxpy, time
 import gpxpy.gpx
 
 
-def is_holyday(n):
-    file = open("holiday.txt","w")
-    if n == 1:
-        file.write("1")
-    elif n == 0:
+def is_holyday(VACANCE_BOOL):
+    """ Write in holiday.txt 1 if holiday mode activate """
+    file = open("holiday.txt", "w")
+    if VACANCE_BOOL == 1:
+        dateDebut = time.strftime("%Y-%m-%d_%H-%M-%S")
+        file.write("1;"+dateDebut)
+        print("C'est les vacances !!!!!")
+    elif VACANCE_BOOL == 0:
         file.write("0")
+        print("Au boulot !")
     file.close()
 
 
 def txt_to_gpx():
-    # Creating a new file:
-    # --------------------
-
+    """ Convert txt gps-holiday.txt in GPX trace TO DO ADD NAME AND DESCRIPTION"""
     gpx = gpxpy.gpx.GPX()
 
     # Create first track in our GPX:
@@ -25,20 +27,20 @@ def txt_to_gpx():
     gpx_segment = gpxpy.gpx.GPXTrackSegment()
     gpx_track.segments.append(gpx_segment)
 
-    # Create points:
-    gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(2.1234, 5.1234, elevation=1234))
-    gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(2.1235, 5.1235, elevation=1235))
-    gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(2.1236, 5.1236, elevation=1236))
-
-    # You can add routes and waypoints, too...
-
+    with open("gps-holiday.txt", "r") as holiday:
+        lines = holiday.readlines()
+        print(lines)
+        for line in lines:
+            if line != "\n":
+                parsePath = line.split(",")
+                date = parsePath[0]
+                hour = parsePath[1]
+                longitude = parsePath[2]
+                latitude = parsePath[3]
+                # Create points:
+                gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(float(longitude), float(latitude), elevation=0))
     print('Created GPX:', gpx.to_xml())
-
-    file = open("testfile.gpx","w")
-    # for lines in gpx.to_xml():
-    #     #print(lines)
-    #     file.write(lines)
-
+    file = open("testfile.gpx", "w")
     file.write(gpx.to_xml())
 
 def gps_base():
@@ -52,8 +54,8 @@ def gps_base():
 
 
 is_holyday(1)
+#txt_to_gpx()
 
-gps_base()
 
 
 
