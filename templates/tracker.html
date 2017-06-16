@@ -65,8 +65,8 @@
                                             <td>nom</td>
                                             <td>comment</td>
                                             <td class="center">
-                                                
-                                                <div class="btn-group">
+                                                    <a onclick="sendGPXmail()">mail</a>
+                                                <!--<div class="btn-group">
                                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-share-square"></i>
                                                         Actions<span class="caret"></span></button>
                                                     <ul class="dropdown-menu pull-right" role="menu">
@@ -75,7 +75,7 @@
                                                         <li><a onclick="sendGPXmail()">mail</a>
                                                         </li>
                                                     </ul>
-                                                </div>
+                                                </div>-->
                                                 
                                             </td>
                                         </tr>
@@ -99,7 +99,7 @@
 
 var points = JSON.parse('{{ points|safe }}');
 
-console.log(points.holidayStart)
+
 //     return vars
 // }
 
@@ -131,6 +131,7 @@ function action_gps(){
 
 function sendGPXmail(){
         var email = prompt("Please enter your Email:", "Poulette need it !");
+        console.log(email)
         var req = new XMLHttpRequest()
             req.onreadystatechange = function(){
                 if (req.readyState == 4){
@@ -139,7 +140,7 @@ function sendGPXmail(){
             }}
             req.open('POST', '/Mail_gpx')
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-            var postVars = 'username='+ document.getElementById(tab).value;
+            var postVars = 'username='+ document.getElementById("tab").getAttribute("value");
             console.log(postVars)
             req.send(postVars)
         return false
