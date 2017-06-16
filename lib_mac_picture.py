@@ -41,8 +41,8 @@ def thumbnail(name_img):
 
 
 
-def send_mail_pic(path):
-	print("IMPOSSIBLE IN MAC OS")
+# def send_mail_pic(path):
+# 	print("IMPOSSIBLE IN MAC OS")
 
 def del_pic(path):
     parsePath = path.split("/")
@@ -75,4 +75,4 @@ def sendEmail(path, email):
 	server.sendmail(fromaddr, toaddr, text)
 	server.quit()
 
-sendEmail("static/img/00001_photo.jpg", "julien.cav@gmail.com")
+#sendEmail("static/img/00001_photo.jpg", "julien.cav@gmail.com")

@@ -10,7 +10,7 @@ from lib_poulette import *
 from lib_tracking import *
 from geopy.geocoders import Nominatim
 import requests, json
-
+#from lib_mail import *
 from lib_GPS import *
 
 
@@ -130,11 +130,12 @@ def take_picture():
 @app.route('/Mail_picture', methods = ['POST'])
 def mail_picture():
     username = request.form['username']
-    #email = request.form['email']
-    print('email :-DDDD')
+    email = request.form['email']
+    print(email+':-DDDD')
     print("SENDING BY MAIL !!!!!")
     print(username)
-    send_mail_pic(username)
+    #send_mail_pic(username)
+    sendEmail(username, email)
     return jsonify(out="1")
 
 #Fonction PICTURE
@@ -146,10 +147,13 @@ def delete_picture():
     del_pic(username)
     return jsonify(out="1")
 
-#Fonction PICTURE
+# # Fonction PICTURE
 # @app.route('/SMS_picture', methods = ['POST'])
 # def sms_picture():
 #     #take_pic()
+#     print("oh")
+#     print(request.form['username'])
+#     print(request.form['bim'])
 #     print("SENDING BY SMS !!!!!")
 #     return jsonify(out="1")
 
