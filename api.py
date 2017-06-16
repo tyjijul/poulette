@@ -146,11 +146,11 @@ def delete_picture():
     return jsonify(out="1")
 
 #Fonction PICTURE
-@app.route('/SMS_picture', methods = ['POST'])
-def sms_picture():
-    #take_pic()
-    print("SENDING BY SMS !!!!!")
-    return jsonify(out="1")
+# @app.route('/SMS_picture', methods = ['POST'])
+# def sms_picture():
+#     #take_pic()
+#     print("SENDING BY SMS !!!!!")
+#     return jsonify(out="1")
 
 #Fonction check GIT update
 @app.route('/update', methods = ['POST'])
@@ -181,6 +181,17 @@ def download(N):
     print(N)
     #return 1
     return send_file("static/gps/"+N,mimetype = 'txt',attachment_filename= N,as_attachment = True)
+
+#Fonction GPX
+@app.route('/Mail_gpx', methods = ['POST'])
+def mail_gpx():
+    username = request.form['username']
+    #email = request.form['email']
+    print('email :-DDDD')
+    print("SENDING BY MAIL !!!!!")
+    print(username)
+    sendEmailGpx(username, "julien.cav@gmail.com")
+    return jsonify(out="1")
 
 
 def initSession():

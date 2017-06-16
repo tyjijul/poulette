@@ -60,11 +60,24 @@
                                     <tbody>
 
                                         {% for line in  session['TAB'] : %}
-                                        <tr class="trace">
+                                        <tr id="tab" value="{{line}}" class="trace">
                                             <td>{{line}}</td>
                                             <td>nom</td>
                                             <td>comment</td>
-                                            <td class="center"><a href='download/{{line}}' target='_blank'>{{line}}</a></td>
+                                            <td class="center">
+                                                
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-share-square"></i>
+                                                        Actions<span class="caret"></span></button>
+                                                    <ul class="dropdown-menu pull-right" role="menu">
+                                                        <li><a href='download/{{line}}' target='_blank'>télécharger</a>
+                                                        </li>
+                                                        <li><a onclick="sendGPXmail()">mail</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                
+                                            </td>
                                         </tr>
 
                                         {% endfor %}
@@ -103,7 +116,21 @@ function init(){
         document.getElementById('start').innerHTML =" Mode vacance activé depuis le : "+points.holidayStart
     }
 }
-
+function sendGPXmail(){
+        var email = prompt("Please enter your Email:", "Poulette need it !");
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        console.log = response.out
+            }}
+            req.open('POST', '/Mail_gpx')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username='+ document.getElementById(tab).value;
+            console.log(postVars)
+            req.send(postVars)
+        return false
+}
 
 
 </script>
