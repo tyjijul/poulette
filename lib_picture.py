@@ -92,5 +92,4 @@ def sendEmail():
 	server.quit()
 
 if __name__ == '__main__':
-	#take_pic()
-
+	print("fuck lib_picture")
