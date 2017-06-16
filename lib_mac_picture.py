@@ -17,7 +17,6 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 fromaddr = "poulettemylove@gmail.com"
-toaddr = "julien.cav@gmail.com"
 msg = MIMEMultipart()
 
 
@@ -72,7 +71,7 @@ def sendEmail(path, email):
 	server.starttls()
 	server.login(fromaddr, "superpoulette")
 	text = msg.as_string()
-	server.sendmail(fromaddr, toaddr, text)
+	server.sendmail(fromaddr, email, text)
 	server.quit()
 
 #sendEmail("static/img/00001_photo.jpg", "julien.cav@gmail.com")

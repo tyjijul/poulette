@@ -88,7 +88,7 @@ def sendEmail(path, email):
 	server.starttls()
 	server.login(fromaddr, "superpoulette")
 	text = msg.as_string()
-	server.sendmail(fromaddr, toaddr, text)
+	server.sendmail(fromaddr, email, text)
 	server.quit()
 
 if __name__ == '__main__':
