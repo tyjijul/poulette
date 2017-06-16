@@ -26,7 +26,7 @@
                 <div class="row">
                 <div class="col-xs-4 text-center">
                     <br>
-              <button id="btn0" type="button" class="btn btn-success btn-circle btn-xl" onclick="t0()"><i id = "iconbtn0" class="fa fa-play"></i></button>
+              <button id="btn0" type="button" class="btn btn-success btn-circle btn-xl" onclick="action_gps()"><i id = "iconbtn0" class="fa fa-play"></i></button>
               </div>
               <div class="col-xs-8 text-center">
               <h4><div id = "start"></div></h4>
@@ -108,14 +108,27 @@ console.log(points.holidayStart)
 //   //duree="90";
 window.onload = init;
 function init(){
-
     if(points.holidayTXT == "1"){
-        console.log("EASYLIFE")
         $("#btn0").removeClass("btn-success").addClass("btn-danger");
         $("#iconbtn0").removeClass("fa-play").addClass("fa-stop");
         document.getElementById('start').innerHTML =" Mode vacance activé depuis le : "+points.holidayStart
     }
 }
+
+function action_gps(){
+    if(points.holidayTXT == "1"){
+        $("#btn0").removeClass("btn-danger").addClass("btn-success");
+        $("#iconbtn0").removeClass("fa-stop").addClass("fa-play");
+        document.getElementById('start').innerHTML ="Fin des vacances le fichier est enregisté"
+        //STOP ACQUISITION
+    }else{
+        $("#btn0").removeClass("btn-success").addClass("btn-danger");
+        $("#iconbtn0").removeClass("fa-play").addClass("fa-stop");
+        document.getElementById('start').innerHTML =" C'est les Vacances"
+    }
+}
+
+
 function sendGPXmail(){
         var email = prompt("Please enter your Email:", "Poulette need it !");
         var req = new XMLHttpRequest()

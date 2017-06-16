@@ -64,9 +64,9 @@ def gps_base():
 def sendEmailGpx(path, email):	
 	msg['From'] = fromaddr
 	msg['To'] = email
-	msg['Subject'] = "Photo send from Poulette Life System !"
+	msg['Subject'] = "GPX send from Poulette Life System !"
 	
-	body = "Hello c'est poulette ! voici la photo"
+	body = "Hello c'est poulette ! voici la trace des vacances !"
 	
 	msg.attach(MIMEText(body, 'plain'))
 	
