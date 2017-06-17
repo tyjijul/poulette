@@ -58,7 +58,7 @@ while True:
     line = ser.readline()
     if "$GPRMC" in line: # This will exclude other NMEA sentences the GPS unit provides.
         gpsData = parse_GPRMC(line) # Turn a GPRMC sentence into a Python dictionary called gpsData
-        print(gpsData)
+        #print(gpsData)
         #if gpsData['validity'] == "A": # If the sentence shows that there's a fix, then we can log the line
         if gpsData['decimal_latitude'] == '' :
                 print("NO SIGNAL")
@@ -71,10 +71,12 @@ while True:
                 holiday = open("holiday.txt", "r")
                 H = holiday.read()
                 holiday.close()
+		print(H)
                 if "1" in H:
+		    print("detect holiday mode")
                     with open("/home/pi/poulette/gps-holiday.txt", "a") as holiday:
                         #if gpsData['fix_date'] > 1:
-                        holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
+                        holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine\n")
                     holiday.close()
 
         time.sleep(10)

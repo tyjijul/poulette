@@ -97,7 +97,7 @@ def sendEmailGpx(path, email):
 	part = MIMEBase('application', 'octet-stream')
 	part.set_payload((attachment).read())
 	encoders.encode_base64(part)
-	part.add_header('Content-Disposition', "attachment; filename= %s" % path)
+	part.add_header('Content-Disposition', "attachment; filename= %s" % path.replace(" ",""))
 	
 	msg.attach(part)
 	
