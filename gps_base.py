@@ -71,7 +71,7 @@ while True:
                 holiday = open("holiday.txt", "r")
                 H = holiday.read()
                 holiday.close()
-                if H == "1":
+                if "1" in H:
                     with open("/home/pi/poulette/gps-holiday.txt", "a") as holiday:
                         #if gpsData['fix_date'] > 1:
                         holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
