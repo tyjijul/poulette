@@ -1,7 +1,7 @@
 import gpxpy, time
 import gpxpy.gpx
 
-import smtplib
+import smtplib, os
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
@@ -10,20 +10,36 @@ fromaddr = "poulettemylove@gmail.com"
 
 msg = MIMEMultipart()
 
-def is_holyday(VACANCE_BOOL):
+def is_holyday(VACANCE_BOOL, NAME):
     """ Write in holiday.txt 1 if holiday mode activate """
-    file = open("holiday.txt", "w")
+    line = " "
     if VACANCE_BOOL == 1:
-        dateDebut = time.strftime("%Y-%m-%d_%H-%M-%S")
-        file.write("1;"+dateDebut)
+        file = open("holiday.txt", "w")
+        dateDebut = time.strftime("%Y_%m_%d_%H_%M_%S")
+        file.write("1;"+dateDebut+";"+dateDebut+"-"+NAME+"-") # etat ; date ; filename
+        file.close()
+        # init de gps-holiday.txt
+        hol = open("gps-holiday.txt", "w")
+        hol.close()
         print("C'est les vacances !!!!!")
     elif VACANCE_BOOL == 0:
-        file.write("0")
+        #file.readline
+        file = open("holiday.txt", "r")
+        line = file.readline()
+        parsePath = line.split(";")
+        print(parsePath[0])
+        print(parsePath[1])
+        print(parsePath[2])
+        file.close()
+        file = open("holiday.txt", "w")
+        file.write("0;;")
         print("Au boulot !")
+        #convert in GPX
+        txt_to_gpx(parsePath[2])
     file.close()
 
 
-def txt_to_gpx():
+def txt_to_gpx(NAME):
     """ Convert txt gps-holiday.txt in GPX trace TO DO ADD NAME AND DESCRIPTION"""
     gpx = gpxpy.gpx.GPX()
 
@@ -37,7 +53,7 @@ def txt_to_gpx():
 
     with open("gps-holiday.txt", "r") as holiday:
         lines = holiday.readlines()
-        print(lines)
+        #print(lines)
         for line in lines:
             if line != "\n":
                 parsePath = line.split(",")
@@ -48,7 +64,9 @@ def txt_to_gpx():
                 # Create points:
                 gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(float(longitude), float(latitude), elevation=0))
     print('Created GPX:', gpx.to_xml())
-    file = open("testfile.gpx", "w")
+    filepath = "static/gps/"+NAME+".gpx"
+    print(filepath)
+    file = open(filepath, "w")
     file.write(gpx.to_xml())
 
 def gps_base():
@@ -56,10 +74,13 @@ def gps_base():
     H = holiday.read()
     holiday.close()
     if H == "1":
-        with open("gps-holiday.txt", "w") as holiday:
-            holiday.write("gpsData['fix_date']" + "," + "gpsData['fix_time']" + "," + "str(gpsData['decimal_latitude'])" + "," + "str(gpsData['decimal_longitude'])"+",endLine")
+        with open("gps-holiday.txt", "a") as holiday:
+            holiday.write("gpsData['fix_date']" + "," + "gpsData['fix_time']" + "," + "str(gpsData['decimal_latitude'])" + "," + "str(gpsData['decimal_longitude'])"+",endLine\n")
 
 
+
+def removeGpx(path):	
+	os.remove("static/gps/"+path.replace(" ",""))
 
 def sendEmailGpx(path, email):	
 	msg['From'] = fromaddr
@@ -71,7 +92,7 @@ def sendEmailGpx(path, email):
 	msg.attach(MIMEText(body, 'plain'))
 	
 
-	attachment = open("static/gps/"+path.strip(), "rb")
+	attachment = open("static/gps/"+path.replace(" ",""), "rb")
 	
 	part = MIMEBase('application', 'octet-stream')
 	part.set_payload((attachment).read())
@@ -87,10 +108,6 @@ def sendEmailGpx(path, email):
 	server.sendmail(fromaddr, email, text)
 	server.quit()
 
-#is_holyday(1)
-#txt_to_gpx()
-
-#sendEmailGpx("gps1.gpx", "julien.cav@gmail.com")
 
 
 

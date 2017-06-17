@@ -1,5 +1,9 @@
+""" Librairie de lecture de la balise GPS puis d'ecriture en fichier texte """
+
 import serial
 import os, time
+
+
 
 firstFixFlag = False # this will go true after the first GPS fix.
 firstFixDate = ""
@@ -68,9 +72,9 @@ while True:
                 H = holiday.read()
                 holiday.close()
                 if H == "1":
-                    with open("/home/pi/poulette/GPS-holiday.txt", "a") as holiday:
-                        if gpsData['fix_date'] > 1:
-                            holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
+                    with open("/home/pi/poulette/gps-holiday.txt", "a") as holiday:
+                        #if gpsData['fix_date'] > 1:
+                        holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
                     holiday.close()
 
         time.sleep(10)

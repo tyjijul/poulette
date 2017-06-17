@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import time, datetime, random, subprocess, platform
-import csv, sys, os, requests, zipfile
+import csv, sys, os, requests, zipfile, glob
 from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash , Response
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
@@ -63,11 +63,23 @@ def camera():
 def map():
     return render_template('map.html')
 
-#Route map : 
+#Route tracker : 
 @app.route('/tracker', methods = ['GET', 'POST'])
 def tracker():
     data = {'holidayTXT': session['holiday'], 'holidayStart': session['holidayStart']}
-    session['TAB'] = sorted(os.listdir('static/gps') , key=str.lower, reverse=True)
+    listgps = sorted(glob.glob("static/gps/20*") , key=str.lower, reverse=True)
+    GPS = []
+    dataGPS = []
+    for datas in listgps:
+        slip = datas.split("/")
+        parse = slip[2].split("-")
+        dataGPS.append(parse[0])
+        dataGPS.append(parse[1])
+        GPS.append(dataGPS)
+        dataGPS=[]
+        session['GPS'] = GPS
+    print(GPS)
+
     return render_template('tracker.html', points=json.dumps(data))
 
 #Fonction AJAX TEMP
@@ -187,7 +199,7 @@ def download(N):
     #return 1
     return send_file("static/gps/"+N,mimetype = 'txt',attachment_filename= N,as_attachment = True)
 
-#Fonction GPX
+#Fonction MAIL GPX
 @app.route('/Mail_gpx', methods = ['POST'])
 def mail_gpx():
     username = request.form['username']
@@ -199,7 +211,39 @@ def mail_gpx():
     sendEmailGpx(username, mail)
     return jsonify(out="1")
 
+#Fonction DELETE GPX
+@app.route('/del_gpx', methods = ['POST'])
+def del_gpx():
+    username = request.form['username']
+    print("DELETED !!!!!")
+    print(username)
+    removeGpx(username)
+    return jsonify(out="1")
 
+
+@app.route('/Holiday/<N>', methods = ['GET', 'POST'])
+def holiday(N):
+    print("api.py : N = "+N)
+    username = request.form['username']
+    if N == "1":
+        session['holiday'] = 0
+        is_holyday(int(N), username)
+    elif N == "0":
+        session['holiday'] = 1
+        is_holyday(int(N), "#")
+    with open("holiday.txt", "r") as holiday : 
+        line = holiday.readline()
+        parseholiday = line.split(";")
+        if parseholiday[0] == "1":
+            session['holiday'] = 1
+            print("api.py : C'EST LES VACANCES !!!!!!")
+        else :
+            session['holiday'] = 0
+            print("api.py : AU BOULOT !!!!!!")
+        session['holidayStart'] = parseholiday[1]
+    return jsonify(out="1")
+
+    
 def initSession():
     session.clear()
     session['start'] = 1
