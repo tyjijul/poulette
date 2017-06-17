@@ -75,8 +75,10 @@ while True:
                 if "1" in H:
 		    print("detect holiday mode")
                     with open("/home/pi/poulette/gps-holiday.txt", "a") as holiday:
-                        #if gpsData['fix_date'] > 1:
-                        holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine\n")
+                        if gpsData['fix_date'] > "1":
+				print("None mouvement detect - position don't save")
+                        	holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine\n")
                     holiday.close()
 
-        time.sleep(10)
+        time.sleep(5)
+
