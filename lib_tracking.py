@@ -83,30 +83,34 @@ def removeGpx(path):
 	os.remove("static/gps/"+path.replace(" ",""))
 
 def sendEmailGpx(path, email):	
-	msg['From'] = fromaddr
-	msg['To'] = email.strip()
-	msg['Subject'] = "GPX send from Poulette Life System !"
+    print(path.replace(" ",""))
+
+    msg['From'] = fromaddr
+    msg['To'] = email.strip()
+    msg['Subject'] = "GPX send from Poulette Life System !"
 	
-	body = "Hello c'est poulette ! voici la trace des vacances !"
+    body = "Hello c'est poulette ! voici la trace des vacances !"
 	
-	msg.attach(MIMEText(body, 'plain'))
+    msg.attach(MIMEText(body, 'plain'))
 	
 
-	attachment = open("static/gps/"+path.replace(" ",""), "rb")
+    attachment = open("static/gps/"+path.replace(" ",""), "rb")
 	
-	part = MIMEBase('application', 'octet-stream')
-	part.set_payload((attachment).read())
-	encoders.encode_base64(part)
-	part.add_header('Content-Disposition', "attachment; filename= %s" % path.replace(" ",""))
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload((attachment).read())
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', "attachment; filename= %s" % path.replace(" ",""))
 	
-	msg.attach(part)
+    msg.attach(part)
 	
-	server = smtplib.SMTP('smtp.gmail.com', 587)
-	server.starttls()
-	server.login(fromaddr, "superpoulette")
-	text = msg.as_string()
-	server.sendmail(fromaddr, email, text)
-	server.quit()
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(fromaddr, "superpoulette")
+    text = ""
+    text = msg.as_string()
+    server.sendmail(fromaddr, email, text)
+    
+    server.quit()
 
 
 
