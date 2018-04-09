@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from geopy.geocoders import Nominatim
+# from urllib.request import Request
+
 
 geolocator = Nominatim()
+
+# geolocator = nominatim_hack(geolocator)
 
 
 def get_coord():
