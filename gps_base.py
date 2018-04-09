@@ -56,9 +56,10 @@ def parse_GPRMC(data):
 # Main program loop:
 while True:
     line = ser.readline()
+    print(line)
     if "$GPRMC" in line: # This will exclude other NMEA sentences the GPS unit provides.
         gpsData = parse_GPRMC(line) # Turn a GPRMC sentence into a Python dictionary called gpsData
-        #print(gpsData)
+        print(gpsData)
         #if gpsData['validity'] == "A": # If the sentence shows that there's a fix, then we can log the line
         if gpsData['decimal_latitude'] == '' :
                 print("NO SIGNAL")

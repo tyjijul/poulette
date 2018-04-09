@@ -22,8 +22,16 @@
         <!--BUTTON ON/OFF-->
         <div class="col-xs-12">
           <div class="panel panel-default">
-            <div class="panel-heading"><i class="fa fa-map"></i> Déclancher</div>
-                <div class="row">
+            <div class="panel-heading"><i class="fa fa-map"></i> Déclancher
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" onclick="tmpTrack()" class="btn btn-default btn-xs btn-success" >Generate tmp
+                            <span class="fa fa-refresh" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-xs-4 text-center">
                     <br>
               <button id="btn0" type="button" class="btn btn-success btn-circle btn-xl" onclick="action_gps()"><i id = "iconbtn0" class="fa fa-play"></i></button>
@@ -31,7 +39,7 @@
               <div class="col-xs-8 text-center">
               <h4><div id = "start"></div></h4>
               </div>
-              </div>
+            </div>
               <br>
             </div>
         </div>
@@ -158,6 +166,22 @@ function stop_holiday(){
         req.open('POST', '/Holiday/0')
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
         var postVars = "username=0"//+name;//+"+&email="+email;
+        console.log(postVars)
+        req.send(postVars)
+    return false
+}
+
+function tmpTrack(){
+    var req = new XMLHttpRequest()
+        req.onreadystatechange = function(){
+            if (req.readyState == 4){
+                    var response = JSON.parse(req.responseText)
+                    console.log = response.out
+                    window.location.replace('/tracker')
+        }}
+        req.open('POST', '/Holiday/tmp')
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        var postVars = "username="+name+"tmp";//+"&=name"+email;
         console.log(postVars)
         req.send(postVars)
     return false

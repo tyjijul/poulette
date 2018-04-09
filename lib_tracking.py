@@ -36,6 +36,21 @@ def is_holyday(VACANCE_BOOL, NAME):
         print("Au boulot !")
         #convert in GPX
         txt_to_gpx(parsePath[2])
+    elif VACANCE_BOOL == 2:
+        print("lib_tracking : " + NAME)
+        file = open("holiday.txt", "r")
+        line = file.readline()
+        parsePath = line.split(";")
+        print(parsePath[0])
+        print(parsePath[1])
+        print(parsePath[2])
+        file.close()
+        print("TMP TRACKING !")
+        parseName = NAME.split("-")
+        print(parseName)
+        tmpNAME = parseName[0]+"-TMP"+parseName[1]+"-"
+        txt_to_gpx(tmpNAME)
+
     file.close()
 
 

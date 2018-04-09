@@ -225,22 +225,30 @@ def del_gpx():
 def holiday(N):
     print("api.py : N = "+N)
     username = request.form['username']
-    if N == "1":
-        session['holiday'] = 0
-        is_holyday(int(N), username)
-    elif N == "0":
-        session['holiday'] = 1
-        is_holyday(int(N), "#")
-    with open("holiday.txt", "r") as holiday : 
-        line = holiday.readline()
-        parseholiday = line.split(";")
-        if parseholiday[0] == "1":
-            session['holiday'] = 1
-            print("api.py : C'EST LES VACANCES !!!!!!")
-        else :
+    print("api.py : username = "+username)    
+    if N != "tmp":
+        if N == "1":
             session['holiday'] = 0
-            print("api.py : AU BOULOT !!!!!!")
-        session['holidayStart'] = parseholiday[1]
+            is_holyday(int(N), username)
+        elif N == "0":
+            session['holiday'] = 1
+            is_holyday(int(N), "#")
+        with open("holiday.txt", "r") as holiday : 
+            line = holiday.readline()
+            parseholiday = line.split(";")
+            if parseholiday[0] == "1":
+                session['holiday'] = 1
+                print("api.py : C'EST LES VACANCES !!!!!!")
+            else :
+                session['holiday'] = 0
+                print("api.py : AU BOULOT !!!!!!")
+            session['holidayStart'] = parseholiday[1]
+    else :
+        with open("holiday.txt", "r") as holiday : 
+            line = holiday.readline()
+            parseholiday = line.split(";")
+        print(parseholiday[1])
+        is_holyday(2, parseholiday[2])
     return jsonify(out="1")
 
     
