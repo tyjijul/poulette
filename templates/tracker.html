@@ -25,7 +25,7 @@
             <div class="panel-heading"><i class="fa fa-map"></i> Déclancher
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="button" onclick="tmpTrack()" class="btn btn-default btn-xs btn-success" >Generate tmp
+                        <button type="button" onclick="tmpTrack()" class="btn btn-default btn-xs btn-success" >Generate temp file
                             <span class="fa fa-refresh" aria-hidden="true"></span>
                         </button>
                     </div>
@@ -51,8 +51,8 @@
                 <div class="col-lg-12">
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                             Advanced Tables
+                        <div class="panel-heading"><i class="fa fa-file"></i>
+                             GPX :
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -61,7 +61,7 @@
                                         <tr>
                                             <th>Date</th>
                                             <th>Nom</th>
-                                            <th>Description</th>
+                                            <!-- <th>Description</th> -->
                                             <th>Mail</th>
                                             <th>Link</th>
                                             <th>Delete</th>
@@ -73,7 +73,7 @@
                                         <tr id="tab" value="{{line[0]}}+-+{{line[1]}}+-.gpx" class="trace">
                                             <td>{{line[0]}}</td>
                                             <td>{{line[1]}}</td>
-                                            <td>comment</td>
+                                            <!-- <td>comment</td> -->
                                             <td class="center">
                                                 <a onclick="sendGPXmail('{{line[0].strip()}}-{{line[1].strip()}}-.gpx')">mail</a>
                                             </td>
@@ -81,7 +81,7 @@
                                                 <a href='download/{{line[0].strip()}}-{{line[1].strip()}}-.gpx' target='_blank'>link</a>
                                             </td>
                                             <td class="center">
-                                                <a onclick="delGPX()">delete</a>
+                                                <a onclick="delGPX('{{line[0].strip()}}-{{line[1].strip()}}-.gpx')">delete</a>
                                             </td>
                                                 <!--<div class="btn-group">
                                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-share-square"></i>
@@ -221,8 +221,9 @@ function sendGPXmail(name){
         return false
 }
 
-function delGPX(){
-        console.log(email)
+function delGPX(name){
+        console.log(name)
+        // console.log("username="+document.getElementById("tab").getAttribute("value"))
         var req = new XMLHttpRequest()
             req.onreadystatechange = function(){
                 if (req.readyState == 4){
@@ -232,7 +233,8 @@ function delGPX(){
             }}
             req.open('POST', '/del_gpx')
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-            var postVars = "username="+document.getElementById("tab").getAttribute("value")
+
+            var postVars = "username="+name//document.getElementById("tab").getAttribute("value")
             console.log(postVars)
             req.send(postVars)
         return false
