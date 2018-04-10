@@ -172,12 +172,17 @@ def delete_picture():
 #Fonction check GIT update
 @app.route('/update', methods = ['POST'])
 def update():
-    output = subprocess.check_output(PATH+"git_status.sh", shell=True)
+    print("check for update")
+    output = subprocess.check_output("./git_status.sh", shell=True)
+    print(output)
     if b'Up-to-date' in output : 
         print("up-to-date")
         out = "True"
-    else : 
-        print("update available")
+    elif b'Need-to-push' in output: 
+        print("Need to push")
+        out = "True"
+    elif b'Need-to-pull' in output: 
+        print("Need to pull")
         out = "False"
     return jsonify(out=out)
 
