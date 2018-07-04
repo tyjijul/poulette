@@ -14,6 +14,7 @@ import requests, json
 #from lib_mail import *
 from lib_GPS import *
 
+# de la merde pour modifier le git
 
 app = Flask(__name__)
 app.secret_key = 'evo2000'
