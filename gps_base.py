@@ -1,5 +1,9 @@
+""" Librairie de lecture de la balise GPS puis d'ecriture en fichier texte """
+
 import serial
-import os
+import os, time
+
+
 
 firstFixFlag = False # this will go true after the first GPS fix.
 firstFixDate = ""
@@ -52,6 +56,7 @@ def parse_GPRMC(data):
 # Main program loop:
 while True:
     line = ser.readline()
+    print(line)
     if "$GPRMC" in line: # This will exclude other NMEA sentences the GPS unit provides.
         gpsData = parse_GPRMC(line) # Turn a GPRMC sentence into a Python dictionary called gpsData
         print(gpsData)
@@ -63,3 +68,18 @@ while True:
                     myfile.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine")
                 with open("/home/pi/poulette/GPS-raw-log.txt", "w") as myfile:
                     myfile.write(line)
+                myfile.close()
+                holiday = open("holiday.txt", "r")
+                H = holiday.read()
+                holiday.close()
+		print(H)
+                if "1" in H:
+		    print("detect holiday mode")
+                    with open("/home/pi/poulette/gps-holiday.txt", "a") as holiday:
+                        if gpsData['fix_date'] > "1":
+				print("None mouvement detect - position don't save")
+                        	holiday.write(gpsData['fix_date'] + "," + gpsData['fix_time'] + "," + str(gpsData['decimal_latitude']) + "," + str(gpsData['decimal_longitude'])+",endLine\n")
+                    holiday.close()
+
+        time.sleep(5)
+

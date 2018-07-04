@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poulette Life System</title>
+    <title>{{session['name']}} Life System</title>
     <!-- Core CSS - Include with every page -->
     <link href="static/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="static/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -16,21 +16,22 @@
     <!--  wrapper -->
     <div id="wrapper">
         <!-- navbar side -->
-        <nav class="navbar-default navbar-static-side" role="navigation">
-            <!-- sidebar-collapse -->
-            <div class="sidebar-collapse">
-                <!-- side-menu -->
-                <ul class="nav" id="side-menu" >
-                    <li><img src="static/logo/poulette470x470_ZOOM.png" width="70" height="70" alt="" onclick='self.location.href="./"'></li>
-                    <li><a href="./niveau"><i class="fa fa-dashboard fa-3x"></i></a></li>
-                    <li><a href="./anchor"><i class="fa fa-anchor fa-3x"></i></a></li>
-                    <li><a href="./camera"><i class="fa fa-camera-retro fa-3x"></i></a></li>
-                    <li><a href="./map"><i class="fa fa-map-o fa-3x"></i></a></li>
-                    <li><a href="./mapL"><i class="fa fa-map-signs fa-3x"></i></a></li>
-                    <li><a href="./video_feed"><i class="fa fa-film fa-3x"></i></a></li>
-                </ul>
-                <!-- end side-menu -->
-            </div>
-            <!-- end sidebar-collapse -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
+            <!-- navbar-header -->
+            
+            <!-- end navbar-header -->
+            <!-- navbar-top-links -->
+            <ul class="nav navbar-top-links navbar-right">
+               <li><img src="static/logo/poulette470x470_ZOOM.png" width="50" height="50" alt="" onclick='self.location.href="./"'></li>
+                    <li><a href="./niveau"><i class="fa fa-dashboard fa-2x"></i></a></li>
+                    <!-- <li><a href="./anchor"><i class="fa fa-anchor fa-3x"></i></a></li> -->
+                    <li><a href="./camera"><i class="fa fa-camera-retro fa-2x"></i></a></li>
+                    <!-- <li><a href="./map"><i class="fa fa-map-o fa-2x"></i></a></li> -->
+                    <li><a href="./tracker"><i class="fa fa-map-pin fa-2x"></i></a></li>
+                    <li><a href="./video_feed"><i class="fa fa-film fa-2x"></i></a></li>
+                    <li><a href="./param"><i class="fa fa-cog fa-2x"></i></a></li>
+            </ul>
+            <!-- end navbar-top-links -->
+
         </nav>
 </head>

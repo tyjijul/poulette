@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
     <script type="text/javascript" src="static/plugins/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="static/css/jqx.base.css" type="text/css" />
     <script type="text/javascript" src="static/scripts/jqxcore.js"></script>
@@ -21,13 +21,13 @@
 
 
             $('#gauge1').jqxGauge({
-                ranges: [{ startValue: 50, endValue: 100, style: { fill: '#4cb848', stroke: '#4cb848' }, startDistance: 0, endDistance: 0 },
-                         { startValue: 25, endValue: 50, style: { fill: '#fad00b', stroke: '#fad00b' }, startDistance: 0, endDistance: 0 },
-                         { startValue: 0, endValue: 25, style: { fill: '#e53d37', stroke: '#e53d37' }, startDistance: 0, endDistance: 0}],
-                cap: { size: '5%', style: { fill: '#2e79bb', stroke: '#2e79bb'} },
+                ranges: [{ startValue: 50, endValue: 100, style: { fill: '#4cb848', stroke: '#4cb848' }, startDistance: -6, endDistance: -6, endWidth: 1, startWidth: 1 },
+                         { startValue: 25, endValue: 50, style: { fill: '#fad00b', stroke: '#fad00b' }, startDistance: -6, endDistance: -6, endWidth: 1, startWidth: 1 },
+                         { startValue: 0, endValue: 25, style: { fill: '#e53d37', stroke: '#e53d37' }, startDistance: -6, endDistance: -6, endWidth: 1, startWidth: 1 }],
+                cap: { size: '10%', style: { fill: '#2e79bb', stroke: '#2e79bb'} },
                 border: { visible: false },
-                ticksMinor: { interval: 5, size: '5%' },
-                ticksMajor: { interval: 25, size: '10%' },       
+                ticksMinor: { interval: 5, size: '-10' },
+                ticksMajor: { interval: 25, size: '-15' },       
                 labels: { position: 'outside', interval: 25 },
                 pointer: { style: { fill: '#2e79bb' }, width: 3 },
                 animationDuration: 1000,
@@ -37,13 +37,13 @@
             });
             
             $('#gauge2').jqxGauge({
-                ranges: [{ startValue: 0, endValue: 50, style: { fill: '#4cb848', stroke: '#4cb848' }, startDistance: 0, endDistance: 0 },
-                         { startValue: 50, endValue: 75, style: { fill: '#fad00b', stroke: '#fad00b' }, startDistance: 0, endDistance: 0 },
-                         { startValue: 75, endValue: 100, style: { fill: '#e53d37', stroke: '#e53d37' }, startDistance: 0, endDistance: 0}],
-                cap: { size: '5%', style: { fill: '#2e79bb', stroke: '#2e79bb'} },
+                ranges: [{ startValue: 0, endValue: 50, style: { fill: '#4cb848', stroke: '#4cb848' }, startDistance: -6, endDistance: -6, endWidth: 1, startWidth: 1 },
+                         { startValue: 50, endValue: 75, style: { fill: '#fad00b', stroke: '#fad00b' }, startDistance: -6, endDistance: -6, endWidth: 1, startWidth: 1 },
+                         { startValue: 75, endValue: 100, style: { fill: '#e53d37', stroke: '#e53d37' }, startDistance: -6, endDistance: -6, endWidth: 1, startWidth: 1}],
+                cap: { size: '10%', style: { fill: '#2e79bb', stroke: '#2e79bb'} },
                 border: { visible: false },
-                ticksMinor: { interval: 5, size: '5%' },
-                ticksMajor: { interval: 25, size: '10%' },       
+                ticksMinor: { interval: 5, size: '-10' },
+                ticksMajor: { interval: 25, size: '-15' },       
                 labels: { position: 'outside', interval: 25 },
                 pointer: { style: { fill: '#2e79bb' }, width: 3 },
                 animationDuration: 1000,
@@ -52,25 +52,27 @@
                 caption: { offset: [0, 0], value: 'Grise', position: 'bottom' }
             });
 
-            $('#gauge1').jqxGauge({ width: 180, height: 180 });
-            $('#gauge2').jqxGauge({ width: 180, height: 180 });
+            $('#gauge1').jqxGauge({ width: 125, height: 125 });
+            $('#gauge2').jqxGauge({ width: 125, height: 125 });
             // $('#gauge1').jqxGauge('value', init_water1);
             // $('#gauge2').jqxGauge('value', init_water2);
 
 
             ////////// TEMPERATURE ////////////
 
-            var value_min = -20
-            var majorTicks = { size: '10%', interval: 10 },
-                minorTicks = { size: '5%', interval: 2.5, style: { 'stroke-width': 1, stroke: '#aaaaaa'} },
+            var value_min = -10
+            var majorTicks = { size: '10%', interval: 5 },
+                minorTicks = { size: '5%', interval: 2, style: { 'stroke-width': 1, stroke: '#aaaaaa'} },
                 labels = { interval: 20 };
             $('#temp1').jqxLinearGauge({
                 orientation: 'vertical',
                 labels: { position: 'near', interval: 10, formatValue: function (value, position) {
                     if (value === value_min) {return '°C';}return value + '°';}},
                 ticksPosition: 'near',
+                ticksMinor : { size: '10%', interval: 2 },
+                ticksMajor : { size: '20%', interval: 10 },
                 max: 40,
-                min: -20,
+                min: -10,
                 pointer: { size: '6%' },
                 colorScheme: 'scheme04',
                 height:350,
@@ -81,8 +83,10 @@
                 labels: { position: 'near', interval: 10, formatValue: function (value, position) {
                     if (value === value_min) {return '°C';}return value + '°';}},
                 ticksPosition: 'near',
+                ticksMinor : { size: '10%', interval: 2 },
+                ticksMajor : { size: '20%', interval: 10 },
                 max: 40,
-                min: -20,
+                min: -10,
                 pointer: { size: '6%' },
                 colorScheme: 'scheme04',
                 height:350,
@@ -94,8 +98,10 @@
                 labels: { position: 'near', interval: 10, formatValue: function (value, position) {
                     if (value === value_min) {return '°C';}return value + '°';}},
                 ticksPosition: 'near',
+                ticksMinor : { size: '10%', interval: 2 },
+                ticksMajor : { size: '20%', interval: 10 },
                 max: 40,
-                min: -20,
+                min: -10,
                 height:350,
                 pointer: { size: '6%' },
                 colorScheme: 'scheme04',
@@ -113,14 +119,14 @@
 
 
             ////////// BATTERY ////////////
-            var value_minL = 0
+            var value_minL = 10//0
             var value_maxL = 15
-            var majorTicksL = { size: '10%', interval: 2 },
-                minorTicksL = { size: '5%', interval: 0.5, style: { 'stroke-width': 1, stroke: '#aaaaaa'} },
+            var majorTicksL = { size: '20%', interval: 2 },
+                minorTicksL = { size: '20%', interval: 0.5, style: { 'stroke-width': 1, stroke: '#aaaaaa'} },
                 labels = { interval: 1 };
             $('#bat1').jqxLinearGauge({
                 orientation: 'horizontal',
-                labels: { position: 'near', interval: 2, formatValue: function (value, position) {
+                labels: { position: 'near', interval: 1, formatValue: function (value, position) {
                     
                     if (value === value_minL) {
                         return 'Volt';
@@ -129,11 +135,12 @@
                 }
                 },
                 ticksPosition: 'near',
-                ticksMinor: majorTicksL,
-                ticksMajor: minorTicksL,  
+                ticksMinor: { size: '15%', interval: 0.5 },
+                ticksMajor: { size: '20%', interval: 1 },  
                 max: value_maxL,
                 min: value_minL,
-                width:220,
+                //width:400,
+                width:(document.getElementById('bat1').offsetWidth-20),
                 height:60,
                 value:1,
                 pointer: { size: '6%' },
@@ -150,7 +157,7 @@
             
     </script>
     {% include 'header.html' %}
-</head>
+<body style="margin-top: -100px;">
     <div id="page-wrapper">
             <!--data-temp1={{session['temp1']}} 
             data-temp2={{session['temp2']}} 
@@ -162,55 +169,13 @@
             data-bat1={{session['bat1']}}-->
             <div class="row">
                  <!--  page header -->
-                <div class="col-md-12"  style="margin-top: -18px;">
+                <div class="col-md-12">
                     <h1 class="page-header">Niveaux</h1>
                 </div>
                 <!--end  page header -->
             </div>
             <div class="row">
-                <div class="col-md-3">
-                    <!--  Area Chart -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-shower"></i> Eau
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" onclick="refreshWater()" class="btn btn-default btn-xs btn-success" >Refresh
-                                        <span class="fa fa-refresh" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div id="gauge1"></div>
-                            <div id="gauge2"></div>
-                        </div>
-                    </div>
-                    <!-- End Area Chart -->
-                </div>
-                <div class="col-md-5">
-                    <!--  Area Chart -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading"> Température
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" onclick="refreshTemp()" class="btn btn-default btn-xs btn-success" >Refresh
-                                        <span class="fa fa-refresh" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-1">Int</div><div style= "margin-top:10px; margin-left:-20px" class="col-md-1" id="temp1"></div>
-                                <div class="col-md-1">Ext</div><div style= "margin-top:10px; margin-left:-20px" class="col-md-1" id="temp2"></div>
-                                <div class="col-md-1">Frigo</div><div style= "margin-top:10px; margin-left:-20px" class="col-md-1" id="temp3"></div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- End Area Chart -->
-                </div>
-                 <div class="col-md-4">
+                 <div class="col-md-4" id="row_bat">
                     <!--  Area BATTERIE -->
                     <div class="panel panel-default">
                         <div class="panel-heading"><i class="fa fa-battery-full fa-1x"></i> Batterie
@@ -231,6 +196,55 @@
                     </div>
                     <!-- End Area BATTERIE -->
                 </div>
+
+                <div class="col-md-3">
+                    <!--  Area Chart -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-shower"></i> Eau
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" onclick="refreshWater()" class="btn btn-default btn-xs btn-success" >Refresh
+                                        <span class="fa fa-refresh" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body" id="idName">
+                            <div class="col-xs-1"  id="gauge1"></div>
+                            <div class="col-xs-1"  id="gauge2"></div>
+                        </div>
+                    </div>
+                    <!-- End Area Chart -->
+                </div>
+                <div class="col-md-5">
+                    <!--  Area Chart -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-thermometer-half"></i> Température
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" onclick="refreshTemp()" class="btn btn-default btn-xs btn-success" >Refresh
+                                        <span class="fa fa-refresh" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body text-center">
+                            <div class="row text-center">
+                                <div class="col-xs-1">Int</div><div style= "margin-top:10px; margin-left:-20px" class="col-xs-1" id="temp1"></div>
+                                <div class="col-xs-1">Ext</div><div style= "margin-top:10px; margin-left:-20px" class="col-xs-1" id="temp2"></div>
+                                <div class="col-xs-1">Frigo</div><div style= "margin-top:10px; margin-left:-20px" class="col-xs-1" id="temp3"></div>
+
+                                <!--<div style= "width:100px;" class="col-xs-1" id="temp1"></div>
+                                <div style= "width:100px;" class="col-xs-1" id="temp2"></div>
+                                <div style= "width:100px;" class="col-xs-1" id="temp3"></div>-->
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- End Area Chart -->
+                </div>
+                
                 <div class="col-md-4">
                     <div class="alert alert-success text-center">
                         <i class="fa fa-spinner fa-1x"></i> Humidité intérieur : <b id = "hum_int"></b>
@@ -241,7 +255,8 @@
                         <i class="fa fa-spinner fa-1x"></i> Humidité extérieur : <b id = "hum_ext"></b>
                     </div>
                 </div>
-
+                <!--SECTION INFO -->
+                {% include 'footer.html' %}
             </div>
     </div>
 </body>

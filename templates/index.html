@@ -1,54 +1,56 @@
 <!DOCTYPE html>
     <html> 
     {% include 'header.html' %}
+    <body style="margin-top: -100px;">
         <!--  page-wrapper -->
         <div id="page-wrapper">
 
             <div class="row" >
                 <!-- Page Header -->
-                <div class="col-md-12" style="margin-top: -18px;">
-                    <h1 class="page-header">DashBoard</h1>
+                <div class="col-md-12" > <!--style="margin-top: -18px;"-->
+<<<<<<< HEAD
+                    <h1 class="page-header">{{session['name']}} My Love</h1>
+=======
+                    <h1 class="page-header">Poulette My Life Love</h1>
+>>>>>>> ba9db3dd9cb041db30fbedeb2dc18db81892c08a
                 </div>
                 <!--End Page Header -->
             </div>
 
             <div class="row">
-                <!--quick info section -->
+                <!--SECTION METEO -->
                 <div class="col-md-8">
                     <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="fa fa-cloud" id ="city" aria-hidden="true"></i>
-                            <!--<p id="city"></p>-->
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" onclick="reloadWeather()" class="btn btn-default btn-xs btn-success" >Refresh
-                                        <span class="fa fa-refresh" aria-hidden="true"></span>
-                                    </button>
-                                    
+                            <!-- METEO HEADER -->
+                            <div class="panel-heading">
+                                <i class="fa fa-cloud" id ="city" aria-hidden="true"></i>
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <button type="button" onclick="reloadWeather()" class="btn btn-default btn-xs btn-success" >Refresh
+                                            <span class="fa fa-refresh" aria-hidden="true"></span>
+                                        </button>
+                                        
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="panel-body">
-                            <div height="180" id=divMeteo>
-                                <iframe id="frame" width="540" height="220"  frameborder="0"></iframe>
-                                <!--<iframe id="frame" src="" width="540" height="180" ///// src="https://embed.windytv.com/embed2.html?lat=48.4909&lon=-4.5737&type=forecast&metricWind=km%2Fh&metricTemp=%C2%B0C" /////////frameborder="0"></iframe>-->
+                            <!-- METEO CONTENT -->
+                            <div class="panel-body" id="size_meteo">
+                                <div height="180" id="divMeteo">
+                                    <iframe id="frame" width=100% height="200"  frameborder="0"></iframe>
+                                </div>
                             </div>
-                        </div>
-
-                    </div>
-                        
+                    </div>        
                 </div>
+
+                <!--SECTION ALERT -->
                 <div class="col-md-4" id="id_alert" data-alert={{session['alert']}} >
                     <div class="alert alert-danger text-center">
                         <i class="fa fa-dashboard fa-3x" onclick="alertUpdate()"></i>
-                            <!--<button type="button" onclick="changeParam('range',1)" class="btn btn-default btn-xs btn-success" >Refresh
-                                <span class="fa fa-refresh" aria-hidden="true"></span>
-                            </button>-->
-                            <div id="text_alert"></div>
-
+                        <div id="text_alert"></div>
                     </div>
                 </div>
+
+                <!--SECTION MAJ -->
                 <div class="col-md-4">
                     <div class="alert alert-info text-center">
                         <i class="fa fa-cloud-download fa-3x" data-toggle="modal" data-target="#myModal" onclick="checkUpdate()"></i>
@@ -60,20 +62,21 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                             <h4 class="modal-title" id="myModalLabel"></h4>
                                         </div>
-                                        <div class="modal-body" id="updateInfo">
-                                        </div>
+                                        <div class="modal-body" id="updateInfo"></div>
                                         <div class="modal-footer">
                                             <button type="button" id="btn_maj" class="btn btn-primary"> OK</button>
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
+                        </div>
                     </div>
                 </div>
+
+                <!--SECTION INFO -->
+                {% include 'footer.html' %}
                 
-                <!--end quick info section -->
+
             </div>
         </div>
         <!-- end page-wrapper -->
@@ -110,7 +113,7 @@
                             $("#frame").attr("src", "static/ifrm.htm");
                         }else{
                             document.getElementById('city').innerHTML = response.CITY
-                            $("#frame").attr("src", "https://embed.windytv.com/embed2.html?lat="+response.LAT+"&lon="+response.LONG+"&type=forecast&metricWind=km%2Fh&metricTemp=%C2%B0C");
+                            $("#frame").attr("src", "https://embed.windy.com/embed2.html?lat="+response.LAT+"&lon="+response.LONG+"&zoom=4&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=true&detailLat=48.159&detailLon=-0.199&metricWind=km%2Fh&metricTemp=%C2%B0C");
                         }
             }}
             req.open('POST', '/weather')

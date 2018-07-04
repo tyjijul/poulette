@@ -2,22 +2,30 @@
 # -*- coding: utf-8 -*-
 
 import time, datetime, random, subprocess, platform
-import csv, sys, os, requests, zipfile
+import csv, sys, os, requests, zipfile, glob
 from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash , Response
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
 from lib_poulette import *
+from lib_tracking import *
+from lib_json import libJson
 from geopy.geocoders import Nominatim
-from camera import VideoCamera
+import requests, json
+#from lib_mail import *
 from lib_GPS import *
 
 
 app = Flask(__name__)
 app.secret_key = 'evo2000'
+# app.config['SERVER_NAME'] = "test.dev:5000"
 CORS(app, origins='http://192.168.1.92:8000')
 api = Api(app)
 IP = "10.55.1.62"
 geolocator = Nominatim()
+IMG_PATH = "static/img/"
+
+
+lj = libJson()
 
 SYSTEM = platform.system()
 if SYSTEM == 'Darwin':
@@ -26,6 +34,7 @@ if SYSTEM == 'Darwin':
 else:
     PATH = "./"
     from lib_picture import *
+    from camera import VideoCamera
 
 
 #Page d'accueil
@@ -60,10 +69,30 @@ def camera():
 def map():
     return render_template('map.html')
 
-#Route map : 
-@app.route('/mapL', methods = ['GET', 'POST'])
-def mapL():
-    return render_template('mapL.html')
+
+#Route param : 
+@app.route('/param', methods = ['GET', 'POST'])
+def param():
+    return render_template('param.html')
+
+#Route tracker : 
+@app.route('/tracker', methods = ['GET', 'POST'])
+def tracker():
+    data = {'holidayTXT': session['holiday'], 'holidayStart': session['holidayStart']}
+    listgps = sorted(glob.glob("static/gps/20*") , key=str.lower, reverse=True)
+    GPS = []
+    dataGPS = []
+    for datas in listgps:
+        slip = datas.split("/")
+        parse = slip[2].split("-")
+        dataGPS.append(parse[0])
+        dataGPS.append(parse[1])
+        GPS.append(dataGPS)
+        dataGPS=[]
+        session['GPS'] = GPS
+    print(GPS)
+
+    return render_template('tracker.html', points=json.dumps(data))
 
 #Fonction AJAX TEMP
 @app.route('/temp', methods = ['POST'])
@@ -118,14 +147,27 @@ def take_picture():
     take_pic()
     print("PHOTO PRISE !!!!!")
     return jsonify(out="1")
+    #return render_template('gallery.html')
+
+# Fonction send picture
+@app.route('/Download_picture/<N>', methods = ['GET', 'POST'])
+def Download_picture(N):
+    print(N)
+    # username = request.form['username']
+    # print(username)
+    return send_file(IMG_PATH+N,mimetype = 'jpg',attachment_filename= N,as_attachment = True)
+
 
 #Fonction PICTURE
 @app.route('/Mail_picture', methods = ['POST'])
 def mail_picture():
     username = request.form['username']
+    email = request.form['email']
+    print(email+':-DDDD')
     print("SENDING BY MAIL !!!!!")
     print(username)
-    send_mail_pic(username)
+    #send_mail_pic(username)
+    sendEmail(username, email)
     return jsonify(out="1")
 
 #Fonction PICTURE
@@ -137,22 +179,30 @@ def delete_picture():
     del_pic(username)
     return jsonify(out="1")
 
-#Fonction PICTURE
-@app.route('/SMS_picture', methods = ['POST'])
-def sms_picture():
-    take_pic()
-    print("SENDING BY SMS !!!!!")
-    return jsonify(out="1")
+# # Fonction PICTURE
+# @app.route('/SMS_picture', methods = ['POST'])
+# def sms_picture():
+#     #take_pic()
+#     print("oh")
+#     print(request.form['username'])
+#     print(request.form['bim'])
+#     print("SENDING BY SMS !!!!!")
+#     return jsonify(out="1")
 
 #Fonction check GIT update
 @app.route('/update', methods = ['POST'])
 def update():
-    output = subprocess.check_output(PATH+"git_status.sh", shell=True)
+    print("check for update")
+    output = subprocess.check_output("./git_status.sh", shell=True)
+    print(output)
     if b'Up-to-date' in output : 
         print("up-to-date")
         out = "True"
-    else : 
-        print("update available")
+    elif b'Need-to-push' in output: 
+        print("Need to push")
+        out = "True"
+    elif b'Need-to-pull' in output: 
+        print("Need to pull")
         out = "False"
     return jsonify(out=out)
 
@@ -168,10 +218,83 @@ def gen(camera):
 def video_feed():
     return Response(gen(VideoCamera()),mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/download/<N>', methods = ['GET', 'POST'])
+def download(N):
+    print(N)
+    #return 1
+    return send_file("static/gps/"+N,mimetype = 'txt',attachment_filename= N,as_attachment = True)
 
+#Fonction MAIL GPX
+@app.route('/Mail_gpx', methods = ['POST'])
+def mail_gpx():
+    username = request.form['username']
+    mail = request.form['email']
+    #email = request.form['email']
+    print(mail +':-DDDD')
+    print("SENDING BY MAIL !!!!!")
+    print(username)
+    sendEmailGpx(username, mail)
+    return jsonify(out="1")
+
+#Fonction DELETE GPX
+@app.route('/del_gpx', methods = ['POST'])
+def del_gpx():
+    username = request.form['username']
+    print("DELETED !!!!!")
+    print(username)
+    removeGpx(username)
+    return jsonify(out="1")
+
+
+@app.route('/Holiday/<N>', methods = ['GET', 'POST'])
+def holiday(N):
+    print("api.py : N = "+N)
+    username = request.form['username']
+    print("api.py : username = "+username)    
+    if N != "tmp":
+        if N == "1":
+            session['holiday'] = 0
+            is_holyday(int(N), username)
+        elif N == "0":
+            session['holiday'] = 1
+            is_holyday(int(N), "#")
+        with open("holiday.txt", "r") as holiday : 
+            line = holiday.readline()
+            parseholiday = line.split(";")
+            if parseholiday[0] == "1":
+                session['holiday'] = 1
+                print("api.py : C'EST LES VACANCES !!!!!!")
+            else :
+                session['holiday'] = 0
+                print("api.py : AU BOULOT !!!!!!")
+            session['holidayStart'] = parseholiday[1]
+    else :
+        with open("holiday.txt", "r") as holiday : 
+            line = holiday.readline()
+            parseholiday = line.split(";")
+        print(parseholiday[1])
+        is_holyday(2, parseholiday[2])
+    return jsonify(out="1")
+
+
+@app.route('/update_param', methods = ['POST'])
+def update_param():
+    username = request.form['username']
+    print("DELETED !!!!!")
+    print(username)
+    lj.change_key('name',username)
+    return jsonify(out="1")
+
+@app.route('/reboot', methods = ['POST'])
+def reboot():
+    os.system('sudo shutdown -r now')
+    return jsonify(out="1")
+
+    
 def initSession():
     session.clear()
     session['start'] = 1
+    session['name'] = lj.read_key('name')
     session['temp1'] =  None
     session['temp2'] =  None
     session['temp3'] =  None
@@ -180,6 +303,17 @@ def initSession():
     session['water1'] = None
     session['water2'] = None
     session['bat1'] = None
+    # get init of holiday 
+    with open("holiday.txt", "r") as holiday : 
+        line = holiday.readline()
+        parseholiday = line.split(";")
+        if parseholiday[0] == "1":
+            session['holiday'] = 1
+            print("api.py : C'EST LES VACANCES !!!!!!")
+        else :
+            session['holiday'] = 0
+            print("api.py : AU BOULOT !!!!!!")
+        session['holidayStart'] = parseholiday[1]
 
 def getAllValue():
     value = get_all()

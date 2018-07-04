@@ -10,8 +10,6 @@ else:
     from lib_water import *
 
 
-
-
 ALERT_PROPRE = 20
 ALERT_GRISE = 60
 ALERT_BATTERY = 12
@@ -37,6 +35,7 @@ def get_humidity():
 
 def get_water():
     '''read water'''
+    print("readwater")
     init_water()
     value1 = eau_propre()   #random.randint(0, 100)
     value2 = eau_grise()     #random.randint(0, 100)
