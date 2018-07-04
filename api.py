@@ -25,6 +25,7 @@ IP = "10.55.1.62"
 geolocator = Nominatim()
 IMG_PATH = "static/img/"
 
+# de la merde pour merger
 
 lj = libJson()
 
