@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <script type="text/javascript" src="static/plugins/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="static/css/jqx.base.css" type="text/css" />
+
+    
+    {% include 'header.html' %}
+<body style="margin-top: -100px;">
+    <div id="page-wrapper">
+            <!--data-temp1={{session['temp1']}} 
+            data-temp2={{session['temp2']}} 
+            data-temp3={{session['temp3']}}
+            data-hum1={{session['hum1']}} 
+            data-hum2={{session['hum2']}} 
+            data-water1={{session['water1']}} 
+            data-water2={{session['water2']}} 
+            data-bat1={{session['bat1']}}-->
+            <div class="row">
+                 <!--  page header -->
+                <div class="col-md-12">
+                    <h1 class="page-header">Paramètre de {{session['name']}} </h1>
+                </div>
+                <!--end  page header -->
+            </div>
+            <div class="row">
+                 <div class="col-md-4" id="row_bat">
+                    <!--  Area BATTERIE -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-truck fa-1x"></i> Paramètre camion
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                    <div class="col-xs-6">
+                                        <input class="form-control" type="text" placeholder={{session['name']}} readonly>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <input id="name" class="form-control" type="text" placeholder="Changer de nom">
+                                    </div>
+                            </div>
+                            <br>
+                            <div class="row">  
+                                <div class="col-xs-6">
+                                    <button type="button" onclick="update()" class="btn btn-primary">Actualiser</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Area Name -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-power-off fa-1x"></i> Redémarrer le système 
+                        </div>
+                        <div class="panel-body">
+
+                            <!-- <div class="row center-block">   -->
+                                <div class="col-xs-12 text-center">
+                                    <button type="button" onclick="reboot()" class="btn btn-primary">Redémarrer</button>
+                                </div>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                    <!-- End Area Reboot -->
+                </div>
+
+                <!--SECTION INFO -->
+                {% include 'footer.html' %}
+            </div>
+    </div>
+</body>
+</html>
+
+<script  type="text/javascript">
+    function update(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        // document.getElementById("name").innerHTML = response.T1;
+                        // document.getElementById("hum_ext").innerHTML = response.T2;
+                        
+            }}
+        
+            req.open('POST', '/update_param')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username='+document.getElementById("name").value
+            req.send(postVars)
+        return false
+    }
+
+    function reboot(){
+        var req = new XMLHttpRequest()
+            req.onreadystatechange = function(){
+                if (req.readyState == 4){
+                        var response = JSON.parse(req.responseText)
+                        // document.getElementById("name").innerHTML = response.T1;
+                        // document.getElementById("hum_ext").innerHTML = response.T2;
+                        
+            }}
+        
+            req.open('POST', '/reboot')
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            var postVars = 'username='+document.getElementById("name").value
+            req.send(postVars)
+        return false
+    }
+
+
+
+</script>
