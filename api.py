@@ -196,15 +196,15 @@ def update():
     print("check for update")
     output = subprocess.check_output("./git_status.sh", shell=True)
     print(output)
-    if b'Up-to-date' in output : 
-        print("up-to-date")
-        out = "True"
-    elif b'Need-to-push' in output: 
-        print("Need to push")
-        out = "True"
-    elif b'Need-to-pull' in output: 
-        print("Need to pull")
+    if b'not-up-to-date' in output: 
+        print("flask: not-up-to-date")
         out = "False"
+    elif b'up-to-date' in output : 
+        print("flask: up-to-date")
+        out = "True"
+    else : 
+        print("Error git status")
+        out = "True"
     return jsonify(out=out)
 
 #Generation d'image provenant de la camera 
@@ -291,6 +291,10 @@ def reboot():
     os.system('sudo shutdown -r now')
     return jsonify(out="1")
 
+@app.route('/gitPull', methods = ['POST'])
+def gitPull():
+    os.system('git pull')
+    return jsonify(out="1")
     
 def initSession():
     session.clear()
