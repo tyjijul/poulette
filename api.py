@@ -294,6 +294,7 @@ def reboot():
 
 @app.route('/gitPull', methods = ['POST'])
 def gitPull():
+    print("pull")
     os.system('git pull')
     return jsonify(out="1")
     
