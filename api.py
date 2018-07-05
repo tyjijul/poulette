@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
 import time, datetime, random, subprocess, platform
 import csv, sys, os, requests, zipfile, glob
+sys.path.insert(0, 'lib')
 from flask import Flask, session,send_file, render_template,redirect, url_for, request, jsonify, Markup, flash , Response
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
+from multiprocessing import Process, Event, Lock
 from lib_poulette import *
 from lib_tracking import *
 from lib_json import libJson
@@ -63,7 +66,6 @@ def anchor():
 @app.route('/camera', methods = ['GET', 'POST'])
 def camera():
     session['TAB'] = sorted(os.listdir('static/img') , key=str.lower, reverse=True)
-    print(session['TAB'])
     return render_template('gallery.html')
 
 #Route map : 
@@ -92,8 +94,6 @@ def tracker():
         GPS.append(dataGPS)
         dataGPS=[]
         session['GPS'] = GPS
-    print(GPS)
-
     return render_template('tracker.html', points=json.dumps(data))
 
 #Fonction AJAX TEMP
@@ -124,7 +124,6 @@ def ajax_hum():
 @app.route('/alertUpdate', methods = ['POST'])
 def ajax_alert():
     value = get_alert()
-    print(value)
     return jsonify(alert=value)
 
 #Fonction AJAX WEATHER
@@ -133,7 +132,6 @@ def ajax_weather():
     try:
         T = get_town()
     except(ValueError):
-        print("//////////////////////e.code")
         return jsonify(CITY=0, LAT=0, LONG=0)
     return jsonify(CITY=T[0], LAT=T[1], LONG=T[2])
 
@@ -147,16 +145,11 @@ def ajax_location():
 @app.route('/picture', methods = ['POST'])
 def take_picture():
     take_pic()
-    print("PHOTO PRISE !!!!!")
     return jsonify(out="1")
-    #return render_template('gallery.html')
 
 # Fonction send picture
 @app.route('/Download_picture/<N>', methods = ['GET', 'POST'])
 def Download_picture(N):
-    print(N)
-    # username = request.form['username']
-    # print(username)
     return send_file(IMG_PATH+N,mimetype = 'jpg',attachment_filename= N,as_attachment = True)
 
 
@@ -164,39 +157,22 @@ def Download_picture(N):
 @app.route('/Mail_picture', methods = ['POST'])
 def mail_picture():
     username = request.form['username']
-    email = request.form['email']
-    print(email+':-DDDD')
-    print("SENDING BY MAIL !!!!!")
-    print(username)
-    #send_mail_pic(username)
-    sendEmail(username, email)
+    mail = request.form['email']
+    mail_process = Process(target=sendEmail, args=(username, mail, session['name']))
+    mail_process.start()
     return jsonify(out="1")
 
 #Fonction PICTURE
 @app.route('/Delete_picture', methods = ['POST'])
 def delete_picture():
     username = request.form['username']
-    print("DELETING !!!!!")
-    print(username)
     del_pic(username)
     return jsonify(out="1")
-
-# # Fonction PICTURE
-# @app.route('/SMS_picture', methods = ['POST'])
-# def sms_picture():
-#     #take_pic()
-#     print("oh")
-#     print(request.form['username'])
-#     print(request.form['bim'])
-#     print("SENDING BY SMS !!!!!")
-#     return jsonify(out="1")
 
 #Fonction check GIT update
 @app.route('/update', methods = ['POST'])
 def update():
-    print("check for update")
     output = subprocess.check_output("./git_status.sh", shell=True)
-    print(output)
     if b'not-up-to-date' in output: 
         print("flask: not-up-to-date")
         out = "False"
@@ -222,8 +198,6 @@ def video_feed():
 
 @app.route('/download/<N>', methods = ['GET', 'POST'])
 def download(N):
-    print(N)
-    #return 1
     return send_file("static/gps/"+N,mimetype = 'txt',attachment_filename= N,as_attachment = True)
 
 #Fonction MAIL GPX
@@ -231,19 +205,14 @@ def download(N):
 def mail_gpx():
     username = request.form['username']
     mail = request.form['email']
-    #email = request.form['email']
-    print(mail +':-DDDD')
-    print("SENDING BY MAIL !!!!!")
-    print(username)
-    sendEmailGpx(username, mail)
+    mail_process = Process(target=sendEmailGpx, args=(username, mail, session['name']))
+    mail_process.start()
     return jsonify(out="1")
 
 #Fonction DELETE GPX
 @app.route('/del_gpx', methods = ['POST'])
 def del_gpx():
     username = request.form['username']
-    print("DELETED !!!!!")
-    print(username)
     removeGpx(username)
     return jsonify(out="1")
 
@@ -282,8 +251,6 @@ def holiday(N):
 @app.route('/update_param', methods = ['POST'])
 def update_param():
     username = request.form['username']
-    print("DELETED !!!!!")
-    print(username)
     lj.change_key('name',username)
     return jsonify(out="1")
 
@@ -294,7 +261,6 @@ def reboot():
 
 @app.route('/gitPull', methods = ['POST'])
 def gitPull():
-    print("pull")
     os.system('git pull')
     return jsonify(out="1")
     
@@ -310,7 +276,6 @@ def initSession():
     session['water1'] = None
     session['water2'] = None
     session['bat1'] = None
-    # get init of holiday 
     with open("holiday.txt", "r") as holiday : 
         line = holiday.readline()
         parseholiday = line.split(";")

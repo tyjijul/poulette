@@ -31,7 +31,7 @@
                     <ul class="dropdown-menu pull-right" role="menu">
                         <li><a onclick="sendMail()">Mail</a></li>
                         <li><a onclick="getPicName()">Supprimer</a></li>
-                        <li><a onclick="window.location.replace('./Download_picture/'+ ($('.fotorama__active').find('img.fotorama__img').attr('src').split('/'))[2])">tele</a></li>
+                        <li><a onclick="window.location.replace('./Download_picture/'+ ($('.fotorama__active').find('img.fotorama__img').attr('src').split('/'))[2])">Download</a></li>
                     </ul>
                 </div>
               </div>
@@ -217,9 +217,7 @@
       
       function getPicName() {
           var name = $(".fotorama__active").find("img.fotorama__img").attr('src');
-          // console.log(linkElement)
           alert(name);
-          // linkElement.href = name;
           return(name)
       }
 
